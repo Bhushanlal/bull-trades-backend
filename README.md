@@ -1,5 +1,6 @@
-To run the project:
+# To run the project: Please run this command:
 
-Please run this command:
-
+```
 docker compose up --build
+
+```
