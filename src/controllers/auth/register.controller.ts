@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User from "../../models/usersModel";
+import { findUserWithEmail } from "../../services/user.services";
 import { Provider } from "../../utils/enum";
 import { responseHandler } from "../../utils/responseHandler";
 
@@ -7,7 +8,7 @@ export const register = async (req: Request, res: Response) => {
   try {
     const { email, uuid, provider, fullname, accessToken, profilePicture } =
       req.body;
-    const user = await User.findOne({ email, isDeleted: false });
+    const user = await findUserWithEmail(email);
 
     if (provider === Provider.EMAIL) {
       if (user) {
