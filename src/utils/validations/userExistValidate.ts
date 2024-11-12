@@ -4,12 +4,11 @@ import { requiredAccessToken, requiredEmail } from "./commonSchema";
 import * as Joi from "joi"
 
 const userSchema = Joi.object({
-    email: requiredEmail,
-    accessToken : requiredAccessToken
+    email: requiredEmail
   });
 
 // Validation middleware
-export const loginValidate = (req: Request, res: Response, next: any) => {
+export const userExistValidate = (req: Request, res: Response, next: any) => {
     const { error } = userSchema.validate(req.body, { abortEarly: false });
   
     if (error) {
