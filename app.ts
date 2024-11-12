@@ -1,26 +1,29 @@
 import * as express from "express";
 import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
 const app = express();
 import * as dotenv from "dotenv";
-import mongoose from 'mongoose';
+import connectToMongoDB from "./src/utils/db";
+import routes from "./src/routes";
+import * as cors from 'cors';
+
 dotenv.config();
 
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-// MongoDB connection with error handling
-async function connectToMongoDB() {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI as string);
-    console.log("MongoDB connected successfully.");
-  } catch (error) {
-    console.error("MongoDB connection failed:", error);
-    process.exit(1);
-  }
-}
+const corsOptions = {
+  origin: '*',
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 connectToMongoDB();
+
+app.use("/api", routes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Express is listening at http://localhost:${process.env.PORT}`);
