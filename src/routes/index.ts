@@ -8,8 +8,10 @@ import handleLogin from "../controllers/auth/login.controller";
 import { loginValidate } from "../utils/validations/loginValidate";
 import { handleCheckUserExist } from "../controllers/auth/checkUserExist.controller";
 import { userExistValidate } from "../utils/validations/userExistValidate";
+import { validateFirebaseToken } from "../utils/middleware";
 
 router.post("/sign-up",registerValidate, register);
 router.post("/sign-in",loginValidate, handleLogin)
 router.post("/check-user-exist",userExistValidate, handleCheckUserExist)
+router.post('/test', validateFirebaseToken)
 export default router;

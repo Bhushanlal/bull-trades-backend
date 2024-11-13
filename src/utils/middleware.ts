@@ -9,22 +9,30 @@ export const validateFirebaseToken = async (
   next: NextFunction
 ) => {
   try {
-    const accessToken = req.cookies.access_token;
+    // const accessToken = req.cookies.access_token;
 
-    if (!accessToken) {
-      return responseHandler(
-        res,
-        true,
-        'No token found Unauthorized, please login again',
-        null,
-        401
-      );
-    }
-
+    // if (!accessToken) {
+    //   return responseHandler(
+    //     res,
+    //     true,
+    //     'No token found Unauthorized, please login again',
+    //     null,
+    //     401
+    //   );
+    // }
+const accessToken = ""; // put the static token and use "/api/test" route to test
     try {
       const decodedToken = await admin.auth().verifyIdToken(accessToken);
       req.user = decodedToken;
-      next();
+    //   next();
+    // for testing the token
+    return responseHandler(
+        res,
+        false,
+        'Verified',
+        null,
+        200
+      );
     } catch (error) {
       return responseHandler(
         res,
