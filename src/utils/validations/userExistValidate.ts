@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { responseHandler } from "../responseHandler";
-import { requiredAccessToken, requiredEmail } from "./commonSchema";
+import {  requiredEmail } from "./commonSchema";
 import * as Joi from "joi"
 
 const userSchema = Joi.object({
