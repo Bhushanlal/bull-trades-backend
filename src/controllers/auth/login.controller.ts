@@ -6,9 +6,18 @@ import { findUserWithEmail } from "../../services/user.services";
 const handleLogin = async (req: Request, res: Response) => {
   try {
     const { email, accessToken } = req.body;
-    const user = await findUserWithEmail(email)
+    const user = await findUserWithEmail(email);
     if (!user) {
       return responseHandler(res, true, "User not found", null, 404);
+    }
+    if (!user.isVerified) {
+      return responseHandler(
+        res,
+        true,
+        "Please verify email before login.",
+        null,
+        400
+      );
     }
     await User.updateOne(
       { email: email, isDeleted: false },

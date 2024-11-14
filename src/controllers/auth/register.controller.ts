@@ -15,9 +15,9 @@ export const register = async (req: Request, res: Response) => {
         return responseHandler(res, true, "User already exists", null, 400);
       }
     }
-    if (provider === Provider.GOOGLE) {
+    if (provider === Provider .GOOGLE) {
       if (user) {
-        await User.updateOne(
+        await User.updateOne( 
           { email: email, isDeleted: false },
           { token: accessToken }
         );
@@ -35,8 +35,6 @@ export const register = async (req: Request, res: Response) => {
       token: accessToken,
       profilePicture: profilePicture ? profilePicture : null,
     });
-    // set the cookie for user token
-    res.cookie("access_token", "accessToken Test", { httpOnly: true });
     return responseHandler(
       res,
       false,

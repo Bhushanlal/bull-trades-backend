@@ -2,12 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import { auth } from 'firebase-admin';
 import { responseHandler } from './responseHandler';
 import admin from './firebaseConfig';
-
+import { getAppCheck } from "firebase-admin/app-check";
+import { initializeApp } from "firebase-admin/app";
 export const validateFirebaseToken = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+    const firebaseApp = initializeApp();
   try {
     // const accessToken = req.cookies.access_token;
 
@@ -20,10 +22,13 @@ export const validateFirebaseToken = async (
     //     401
     //   );
     // }
-const accessToken = ""; // put the static token and use "/api/test" route to test
+const accessToken = "CR0mgpIMycKnCUDwS0vlPlo_38ZBAfMeSghjInhuMDAAAAGTJaDPbQ"; // put the static token and use "/api/test" route to test
     try {
-      const decodedToken = await admin.auth().verifyIdToken(accessToken);
-      req.user = decodedToken;
+        const appCheckClaims = await getAppCheck().verifyToken(accessToken);
+    //   const decodedToken = await admin.auth().verifyIdToken(accessToken);
+    //   req.user = decodedToken;
+    console.log(appCheckClaims, 'appCheckClaims');
+    
     //   next();
     // for testing the token
     return responseHandler(
@@ -34,6 +39,8 @@ const accessToken = ""; // put the static token and use "/api/test" route to tes
         200
       );
     } catch (error) {
+        console.log(error, 'error');
+        
       return responseHandler(
         res,
         true,
