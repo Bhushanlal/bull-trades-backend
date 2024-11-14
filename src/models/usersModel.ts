@@ -83,6 +83,14 @@ const userSchema = new Schema<IUser>({
   deletedAt: {
     type: Date,
     default: null
+  },
+  otp: {
+    type: Number,
+    default: null
+  },
+  otpExpiredAt: {
+    type: Date,
+    default: null
   }
 }, {
   timestamps: true
