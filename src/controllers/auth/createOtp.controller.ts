@@ -6,6 +6,8 @@ import {
   generateOtp,
 } from "../../services/user.services";
 import { responseHandler } from "../../utils/responseHandler";
+import { loginOtp } from "../../utils/emailTemplates/loginOtp";
+import { sendEmail } from "../../services/emailService";
 
 export const createOtp = async (req: Request, res: Response) => {
   try {
@@ -23,6 +25,9 @@ export const createOtp = async (req: Request, res: Response) => {
     ); // 15 minutes expiration
 
     // email otp 
+    const template = loginOtp(otp)
+    await sendEmail(email, "Login OTP", "Login OTP", template)
+
     return responseHandler(
       res,
       false,

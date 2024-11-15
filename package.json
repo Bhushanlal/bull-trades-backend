@@ -18,6 +18,7 @@
     "firebase-admin": "^12.7.0",
     "joi": "^17.13.3",
     "mongoose": "^8.8.1",
+    "nodemailer": "^6.9.16",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2"
   },

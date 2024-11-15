@@ -1,9 +1,8 @@
 import * as admin from 'firebase-admin';
-import * as dotenv from "dotenv";
-dotenv.config();
+import { FIREBASE_SERVICE_ACCOUNT_KEY } from './envConstants';
 if (!admin.apps.length) {
   try {
-    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY || '');
+    const serviceAccount = JSON.parse(FIREBASE_SERVICE_ACCOUNT_KEY || '');
     
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
