@@ -27,6 +27,14 @@ export const requiredAccessToken = Joi.string().required().messages({
     "string.empty": "AccessToken cannot be empty",
     "any.required": "AccessToken is required",
   });
+  
+export const requiredOtp = Joi.number().integer().min(1000).max(9999).required().messages({
+    "number.base": "Otp must be a number",
+    "number.integer": "Otp must be an integer",
+    "number.min": "Otp must be at least 4 digits",
+    "number.max": "Otp must be at most 4 digits",
+    "any.required": "Otp is required",
+  });
 
 export const optionalProfilePicture = Joi.string().optional().messages({
     "string.empty": "Profile Picture cannot be empty",

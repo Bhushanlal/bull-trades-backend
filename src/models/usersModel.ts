@@ -61,7 +61,7 @@ const userSchema = new Schema<IUser>({
   },
   isVerified: {
     type: Boolean,
-    default: true
+    default: false
   },
   isDeleted: {
     type: Boolean,
@@ -81,6 +81,14 @@ const userSchema = new Schema<IUser>({
     default: Date.now
   },
   deletedAt: {
+    type: Date,
+    default: null
+  },
+  otp: {
+    type: Number,
+    default: null
+  },
+  otpExpiredAt: {
     type: Date,
     default: null
   }

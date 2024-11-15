@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { responseHandler } from "../responseHandler";
-import { requiredAccessToken, requiredEmail } from "./commonSchema";
+import {  requiredEmail } from "./commonSchema";
 import * as Joi from "joi"
 
 const userSchema = Joi.object({
@@ -8,7 +8,7 @@ const userSchema = Joi.object({
   });
 
 // Validation middleware
-export const userExistValidate = (req: Request, res: Response, next: any) => {
+export const userEmailRequireValidate = (req: Request, res: Response, next: any) => {
     const { error } = userSchema.validate(req.body, { abortEarly: false });
   
     if (error) {

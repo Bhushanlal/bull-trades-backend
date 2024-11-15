@@ -24,7 +24,7 @@ app.use(cors(corsOptions));
 connectToMongoDB();
 
 app.use("/api", routes);
-
-app.listen(process.env.PORT, () => {
-  console.log(`Express is listening at http://localhost:${process.env.PORT}`);
+const PORT = process.env.PORT || 8080
+app.listen(PORT, () => {
+  console.log(`Express is listening at http://localhost:${PORT}`);
 });
