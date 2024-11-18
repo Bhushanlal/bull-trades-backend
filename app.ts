@@ -1,25 +1,26 @@
 import * as express from "express";
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
-const app = express();
+
 import * as dotenv from "dotenv";
 import connectToMongoDB from "./src/utils/db";
 import routes from "./src/routes";
 import * as cors from 'cors';
-
+export const app = express();
 dotenv.config();
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
-const corsOptions = {
-  origin: '*',
+
+app.use(cors({
+  origin: process.env.CORS_ORIGIN, // Replace with your frontend URL
   credentials: true,
-  optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 connectToMongoDB();
 
