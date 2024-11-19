@@ -17,6 +17,7 @@ export interface IUser extends Document {
   isDeleted: boolean;
   status: UserStatus;
   otp: number | null;
+  defaultAccount : String | null
   otpExpiredAt: Date | null;
   updatedAt: Date;
   createdAt: Date;
