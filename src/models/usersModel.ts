@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { IUser } from '../dto/types/user.type';
 import { ProfileVisibility, Provider, UserStatus } from '../utils/enum';
+import { string } from 'joi';
 
 // Create the user schema
 const userSchema = new Schema<IUser>({
@@ -91,6 +92,10 @@ const userSchema = new Schema<IUser>({
   otpExpiredAt: {
     type: Date,
     default: null
+  },
+  defaultAccount : {
+    type: String,
+    default: ""
   }
 }, {
   timestamps: true

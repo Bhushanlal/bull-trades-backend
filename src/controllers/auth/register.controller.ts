@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import User from "../../models/usersModel";
-import { findUserWithEmail } from "../../services/user.services";
+import { encodeDefaultAccountId, findUserWithEmail } from "../../services/user.services";
 import { Provider } from "../../utils/enum";
 import { responseHandler } from "../../utils/responseHandler";
+import Account from "../../models/accountModel";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -21,7 +22,9 @@ export const register = async (req: Request, res: Response) => {
           { email: email, isDeleted: false },
           { token: accessToken }
         );
+        const encodeDefaultId = encodeDefaultAccountId(user.defaultAccountId)
         res.cookie("access_token", req.body.accessToken, { httpOnly: true });
+        res.cookie("user_detail", encodeDefaultId, { httpOnly: true });
         return responseHandler(res, false, "Login successful", null, 200);
       }
     }
@@ -33,8 +36,23 @@ export const register = async (req: Request, res: Response) => {
       provider,
       fullname,
       token: accessToken,
+      isVerified :provider === Provider .GOOGLE ? true: false ,
       profilePicture: profilePicture ? profilePicture : null,
     });
+    // Create new account
+    const newAccount = await Account.create({
+      name: `main-${newUser._id}`
+    });
+    // Update user's default account
+    await User.updateOne(
+      { _id: newUser._id },
+      { defaultAccount: newAccount._id }
+    );
+    if (provider === Provider .GOOGLE) {
+      const encodeDefaultId = encodeDefaultAccountId(newUser.defaultAccountId)
+      res.cookie("access_token", req.body.accessToken, { httpOnly: true });
+      res.cookie("user_detail", encodeDefaultId, { httpOnly: true });
+    }
     return responseHandler(
       res,
       false,
