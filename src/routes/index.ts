@@ -19,6 +19,6 @@ router.post("/sign-in",loginValidate, handleLogin)
 router.post("/check-user-exist",userEmailRequireValidate, handleCheckUserExist)
 router.put("/update-user-status",userEmailRequireValidate, handleUpdateUserIsVerified)
 router.post("/create-otp",userEmailRequireValidate, createOtp)
-router.post("/manual-trade",manualTradeValidate, handleManualTrade)
+router.post("/add-manual-trade",manualTradeValidate, handleManualTrade)
 router.post('/test', validateFirebaseToken)
 export default router;

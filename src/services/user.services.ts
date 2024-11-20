@@ -19,8 +19,6 @@ export const createExpirationTime = () => {
 
 
 export const encodeDetails = (data : any) => {
-  console.log(JWT_SECRET);
-  
   const secretKey = JWT_SECRET || "your_secret_key"; 
   const token = jwt.sign(data, secretKey); 
   return token;
