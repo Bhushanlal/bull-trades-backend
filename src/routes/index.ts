@@ -13,6 +13,8 @@ import { handleUpdateUserIsVerified } from "../controllers/auth/updateUserIsVeri
 import { createOtp } from "../controllers/auth/createOtp.controller";
 import { manualTradeValidate } from "../utils/validations/manualTradeValidate";
 import { handleManualTrade } from "../controllers/trades/createManualTrade.controller";
+import { handleUpdateManualTrade } from "../controllers/trades/updateManualTrade.controller";
+import { handleGetTrade } from "../controllers/trades/getTradeById.controller";
 
 router.post("/sign-up",registerValidate, register);
 router.post("/sign-in",loginValidate, handleLogin)
@@ -20,5 +22,8 @@ router.post("/check-user-exist",userEmailRequireValidate, handleCheckUserExist)
 router.put("/update-user-status",userEmailRequireValidate, handleUpdateUserIsVerified)
 router.post("/create-otp",userEmailRequireValidate, createOtp)
 router.post("/add-manual-trade",manualTradeValidate, handleManualTrade)
+router.put("/update-trade/:id", handleUpdateManualTrade)
+router.get("/get-trade/:id", handleGetTrade)
+
 router.post('/test', validateFirebaseToken)
 export default router;

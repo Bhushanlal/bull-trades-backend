@@ -1,5 +1,6 @@
 import * as momentTZ from "moment-timezone";
 import * as moment from "moment"
+import Trade from "../models/tradeModel";
 export function convertToUTC(dateTime: any, fromTimezone: any) {
     try {
       // Validate timezone
@@ -28,3 +29,9 @@ export function convertToUTC(dateTime: any, fromTimezone: any) {
       const entryUTCDate = convertToUTC(datetimeMoment, region || "UTC");
       return entryUTCDate;
   }
+
+
+  export const findTradeWithId = async (tradeId: string) => {
+    const user = await Trade.findOne({ _id:tradeId });
+    return user ? user : null;
+  };

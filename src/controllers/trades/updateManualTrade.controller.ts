@@ -1,39 +1,30 @@
 import { Request, Response } from "express";
 import { responseHandler } from "../../utils/responseHandler";
-import { decodeDetails } from "../../services/user.services";
+import { findTradeWithId } from "../../services/commonServices";
+import { isValidObjectId } from "mongoose";
 import { JwtPayload } from "jsonwebtoken";
+import { decodeDetails } from "../../services/user.services";
 import * as moment from "moment";
+
 import {
   convertToUTC,
   formatDateTimeString,
 } from "../../services/commonServices";
 import { CallOrPut } from "../../utils/enum";
 import Trade from "../../models/tradeModel";
-
-// Payload
-// {
-//     "isFavourite" : false,
-//     "entryDate" : "2024/18/12",
-//     "entryTime" : "14:25:00",
-//     "expirationDate" : "2024/18/12",
-//     "expirationTime" : "14:25:00",
-//     "strike" : 15.00,
-//     "spot" : 14.00,
-//     "callOrPut" : "call",
-//     "bidPrice" : 148,
-//     "askPrice" : 150,
-//     "sentiment" : "bearish",
-//     "execution" : 1450,
-//     "openInterest" : 1450,
-//     "volume" : 25,
-//     "prem" : 145,
-//     "type" : "trade",
-//     "ticker" : "AACL",
-//     "region": "Test"
-
-// }
-export const handleManualTrade = async (req: Request, res: Response) => {
+export const handleUpdateManualTrade = async (req: Request, res: Response) => {
   try {
+    const tradeId = req.params.id;
+
+    if (!isValidObjectId(tradeId)) {
+      return responseHandler(res, true, "Invalid trade ID format", null, 400);
+    }
+
+    const existTrade = await findTradeWithId(tradeId);
+    if (!existTrade) {
+      return responseHandler(res, true, "Trade not found", null, 404);
+    }
+
     const {
       isFavourite,
       entryDate,
@@ -57,13 +48,11 @@ export const handleManualTrade = async (req: Request, res: Response) => {
     const decode = decodeDetails(req.cookies.user_detail) as JwtPayload;
     const { userId, defaultAccountId } = decode;
 
-    // format entery date  and time
     let entryDateFormat: any = "";
     if (entryDate) {
       entryDateFormat = formatDateTimeString(entryDate, entryTime, region);
     }
 
-    // format enxpiration time and date
     let expirationDateFormat: any = "";
     if (expirationDate) {
       expirationDateFormat = formatDateTimeString(
@@ -107,23 +96,26 @@ export const handleManualTrade = async (req: Request, res: Response) => {
       accountId: defaultAccountId,
       userId,
       datesToExpire: datesToExpire || 0,
-    };
-    const newAccount = new Trade(accountData);
-    await newAccount.save();
+      updatedAt: new Date()
+    };0
+
+    const updatedTrade = await Trade.findByIdAndUpdate(tradeId, accountData, {
+      new: true,
+    });
 
     return responseHandler(
       res,
       false,
-      "Manual trade added successfully",
-      null,
-      201
+      "Trade updated successfully",
+      updatedTrade,
+      200
     );
   } catch (error) {
     console.error(error);
     return responseHandler(
       res,
       true,
-      "Error in creating the manual trade.",
+      "Error in updating the manual trade.",
       null,
       500
     );
