@@ -11,11 +11,14 @@ import { userEmailRequireValidate } from "../utils/validations/userExistValidate
 import { validateFirebaseToken } from "../utils/middleware";
 import { handleUpdateUserIsVerified } from "../controllers/auth/updateUserIsVerified.controller";
 import { createOtp } from "../controllers/auth/createOtp.controller";
+import { manualTradeValidate } from "../utils/validations/manualTradeValidate";
+import { handleManualTrade } from "../controllers/trades/createManualTrade.controller";
 
 router.post("/sign-up",registerValidate, register);
 router.post("/sign-in",loginValidate, handleLogin)
 router.post("/check-user-exist",userEmailRequireValidate, handleCheckUserExist)
 router.put("/update-user-status",userEmailRequireValidate, handleUpdateUserIsVerified)
 router.post("/create-otp",userEmailRequireValidate, createOtp)
+router.post("/manual-trade",manualTradeValidate, handleManualTrade)
 router.post('/test', validateFirebaseToken)
 export default router;

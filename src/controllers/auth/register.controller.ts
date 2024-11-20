@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import User from "../../models/usersModel";
-import { encodeDefaultAccountId, findUserWithEmail } from "../../services/user.services";
+import { encodeDetails, findUserWithEmail } from "../../services/user.services";
 import { Provider } from "../../utils/enum";
 import { responseHandler } from "../../utils/responseHandler";
 import Account from "../../models/accountModel";
@@ -22,7 +22,11 @@ export const register = async (req: Request, res: Response) => {
           { email: email, isDeleted: false },
           { token: accessToken }
         );
-        const encodeDefaultId = encodeDefaultAccountId(user.defaultAccountId)
+        const dateToBeEncoded = {
+          userId : user._id,
+          defaultAccountId: user.defaultAccount
+        }
+        const encodeDefaultId = encodeDetails(dateToBeEncoded)
         res.cookie("access_token", req.body.accessToken, { httpOnly: true });
         res.cookie("user_detail", encodeDefaultId, { httpOnly: true });
         return responseHandler(res, false, "Login successful", null, 200);
@@ -49,7 +53,11 @@ export const register = async (req: Request, res: Response) => {
       { defaultAccount: newAccount._id }
     );
     if (provider === Provider .GOOGLE) {
-      const encodeDefaultId = encodeDefaultAccountId(newUser.defaultAccountId)
+      const dateToBeEncoded = {
+        userId : user._id,
+        defaultAccountId: user.defaultAccount
+      }
+      const encodeDefaultId = encodeDetails(dateToBeEncoded)
       res.cookie("access_token", req.body.accessToken, { httpOnly: true });
       res.cookie("user_detail", encodeDefaultId, { httpOnly: true });
     }
