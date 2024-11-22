@@ -1,5 +1,5 @@
 import { ITrade } from "../dto/types/trade.type";
-import { CallOrPut, TradeSentiment, TradeType } from "../utils/enum";
+import { CallOrPut, Position, RiskLevel, TradeType } from "../utils/enum";
 import mongoose, { Schema } from "mongoose";
 
 const tradeSchema = new Schema<ITrade>(
@@ -20,15 +20,11 @@ const tradeSchema = new Schema<ITrade>(
       type: Date,
       required: true,
     },
-    expirationTime: {
-      type: String,
-      required: true,
-    },
     strike: {
       type: Number,
       required: true,
     },
-    spot: {
+    price: {
         type: Number,
         required: true,
       },
@@ -37,38 +33,9 @@ const tradeSchema = new Schema<ITrade>(
       enum: Object.values(CallOrPut),
       required: true,
     },
-    details: {
-      type: String,
-      required: true,
-    },
-    sentiment: {
-      type: String,
-      enum: Object.values(TradeSentiment),
-      required: true,
-    },
-    execution: {
-      type: Number,
-      required: true,
-    },
-    moneyNess: {
-        type: Number,
-        required: true,
-      },
-    openInterest: {
-      type: Number,
-      required: true,
-    },
     volume: {
       type: Number,
       required: true,
-    },
-    prem: {
-      type: Number,
-      required: true,
-    },
-    datesToExpire: {
-      type: Number,
-      default: null,
     },
     type: {
       type: String,
@@ -79,6 +46,16 @@ const tradeSchema = new Schema<ITrade>(
       type: String,
       required: true,
       default: null,
+    },
+    riskLevel: {
+      type: String,
+      enum: Object.values(RiskLevel),
+      required: true,
+    },
+    position: {
+      type: String,
+      enum: Object.values(Position),
+      required: true,
     },
     accountId: {
         type: Schema.Types.ObjectId,

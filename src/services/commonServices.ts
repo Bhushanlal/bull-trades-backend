@@ -30,6 +30,15 @@ export function convertToUTC(dateTime: any, fromTimezone: any) {
       return entryUTCDate;
   }
 
+  // New function to convert date to UTC at the start of the day
+  export const formatDateStringToUTC = (date: any, region: string) => {
+    const dateMoment = moment(date, "YYYY/DD/MM").local();
+    const datetimeMoment = dateMoment
+      .set({ hour: 0, minute: 0, second: 0 }) // Set to start of the day
+      .format("YYYY-MM-DDTHH:mm:ss");
+    const entryUTCDate = convertToUTC(datetimeMoment, region || "UTC");
+    return entryUTCDate;
+  }
 
   export const findTradeWithId = async (tradeId: string) => {
     const user = await Trade.findOne({ _id:tradeId });

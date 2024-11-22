@@ -24,11 +24,18 @@ export enum Provider {
     PUT = 'put'
   }
 
-  export enum TradeSentiment {
-    BULLISH = 'bullish',
-    BEARISH = 'bearish'
+  export enum RiskLevel {
+    HIGH = 'high',
+    MEDIUM = 'medium',
+    LOW = 'low'
   }
   
   export enum TradeType {
-    TRADE = 'trade'
+    OPTION = 'option',
+    SHARES = 'shares'
+  }
+
+  export enum Position {
+    BUY = 'buy',
+    SELL = 'sell'
   }

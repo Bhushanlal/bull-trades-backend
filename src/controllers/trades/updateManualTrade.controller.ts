@@ -1,13 +1,11 @@
 import { Request, Response } from "express";
 import { responseHandler } from "../../utils/responseHandler";
-import { findTradeWithId } from "../../services/commonServices";
+import { findTradeWithId, formatDateStringToUTC } from "../../services/commonServices";
 import { isValidObjectId } from "mongoose";
 import { JwtPayload } from "jsonwebtoken";
 import { decodeDetails } from "../../services/user.services";
-import * as moment from "moment";
 
 import {
-  convertToUTC,
   formatDateTimeString,
 } from "../../services/commonServices";
 import { CallOrPut } from "../../utils/enum";
@@ -26,24 +24,18 @@ export const handleUpdateManualTrade = async (req: Request, res: Response) => {
     }
 
     const {
-      isFavourite,
       entryDate,
       entryTime,
       expirationDate,
-      expirationTime,
       strike,
-      spot,
+      price,
+      riskLevel,
       callOrPut,
-      bidPrice,
-      askPrice,
-      sentiment,
-      execution,
-      openInterest,
       volume,
-      prem,
       type,
       ticker,
       region,
+      position
     } = req.body;
     const decode = decodeDetails(req.cookies.user_detail) as JwtPayload;
     const { userId, defaultAccountId } = decode;
@@ -55,47 +47,26 @@ export const handleUpdateManualTrade = async (req: Request, res: Response) => {
 
     let expirationDateFormat: any = "";
     if (expirationDate) {
-      expirationDateFormat = formatDateTimeString(
+      expirationDateFormat = formatDateStringToUTC(
         expirationDate,
-        expirationTime,
         region
       );
     }
-    const details = `${bidPrice}@${askPrice}`;
-    let moneyNess = 0;
-    if (callOrPut === CallOrPut.CALL) {
-      const calculate = spot / strike;
-      moneyNess = calculate || 0;
-    } else {
-      const calculate = strike / spot;
-      moneyNess = calculate || 0;
-    }
-    const currentDate = moment();
-    const expirationDateMoment = moment(expirationDateFormat);
-
-    const datesToExpire = expirationDateMoment.diff(currentDate, "days");
 
     const accountData = {
-      isFavourite,
       entryDate: entryDateFormat,
       entryTime,
       expirationDate: expirationDateFormat,
-      expirationTime,
       strike,
-      spot,
+      price,
+      riskLevel,
       callOrPut,
-      details,
-      sentiment,
-      execution,
-      moneyNess,
-      openInterest,
       volume,
-      prem,
       type,
       ticker,
       accountId: defaultAccountId,
       userId,
-      datesToExpire: datesToExpire || 0,
+      position,
       updatedAt: new Date()
     };0
 

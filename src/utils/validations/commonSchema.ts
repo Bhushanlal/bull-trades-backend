@@ -1,8 +1,9 @@
 import * as Joi from "joi";
 import {
   CallOrPut,
+  Position,
   Provider,
-  TradeSentiment,
+  RiskLevel,
   TradeType,
 } from "../../utils/enum";
 
@@ -97,17 +98,7 @@ export const requireExpireDate = Joi.string()
     "string.pattern.base": "Expiration Date must be in the format yyyy/dd/mm",
   });
 
-export const requireExpireTime = Joi.string()
-  .trim()
-  .allow("")
-  .required()
-  .pattern(timeFormatRegex)
-  .messages({
-    "string.base": "Expiration Time must be a string",
-    "string.empty": "Expiration Time is required",
-    "any.required": "Expiration Time is required",
-    "string.pattern.base": "Expiration Time must be in the format HH:MM:SS",
-  });
+
 
 export const requireStrike = Joi.number().min(0).required().messages({
   "number.base": "Strike Price must be a number",
@@ -116,11 +107,11 @@ export const requireStrike = Joi.number().min(0).required().messages({
   "number.integer": "Strike Price must be Integer",
 });
 
-export const requireSpot = Joi.number().min(0).required().messages({
-  "number.base": "Spot Price must be a number",
-  "any.required": "Spot Price time is required",
-  "number.min": "Spot Price must be greater than 0",
-  "number.integer": "Spot Price must be Integer",
+export const requirePrice = Joi.number().min(0).required().messages({
+  "number.base": "Price must be a number",
+  "any.required": "Price time is required",
+  "number.min": "Price must be greater than 0",
+  "number.integer": "Price must be Integer",
 });
 
 export const requireCallOrPut = Joi.string()
@@ -132,43 +123,7 @@ export const requireCallOrPut = Joi.string()
     "any.only": "Call/put must be one of the following: call or put",
   });
 
-export const requireBidPrice = Joi.number().min(0).required().messages({
-  "number.base": "Bid Price must be a number",
-  "any.required": "Bid Price is required",
-  "number.min": "Bid Price must be greater than 0",
-  "number.integer": "Bid Price must be Integer",
-});
 
-export const requireAskPrice = Joi.number().min(0).required().messages({
-  "number.base": "Asking Price must be a number",
-  "any.required": "Asking Price is required",
-  "number.min": "Asking Price must be greater than 0",
-  "number.integer": "Asking Price must be Integer",
-});
-
-export const requireSentiment = Joi.string()
-  .required()
-  .valid(...Object.values(TradeSentiment))
-  .messages({
-    "string.empty": "Trade sentiment cannot be empty",
-    "any.required": "Trade sentiment is required",
-    "any.only":
-      "Trade sentiment must be one of the following: Bullish or Bearish",
-  });
-
-export const requireExecutionPrice = Joi.number().min(0).required().messages({
-  "number.base": "Execution Price must be a number",
-  "any.required": "Execution Price is required",
-  "number.min": "Execution Price must be greater than 0",
-  "number.integer": "Execution Price must be Integer",
-});
-
-export const requireOpenInterest = Joi.number().min(0).required().messages({
-  "number.base": "Open Interest must be a number",
-  "any.required": "Open Interest is required",
-  "number.min": "Open Interest must be greater than 0",
-  "number.integer": "Open Interest must be Integer",
-});
 
 export const requireVolume = Joi.number().min(0).required().messages({
   "number.base": "Volume must be a number",
@@ -177,12 +132,7 @@ export const requireVolume = Joi.number().min(0).required().messages({
   "number.integer": "Volume must be Integer",
 });
 
-export const requirePrem = Joi.number().min(0).required().messages({
-  "number.base": "Prem must be a number",
-  "any.required": "Prem is required",
-  "number.min": "Prem must be greater than 0",
-  "number.integer": "Prem must be Integer",
-});
+
 
 export const requireTradeType = Joi.string()
   .required()
@@ -217,3 +167,22 @@ export const requireRegion = Joi.string().min(0).max(80).required().messages({
   "string.pattern.base":
     "Region cannot contain leading or trailing spaces. please enter valid Region",
 });
+
+
+export const requireRiskLevel = Joi.string()
+  .required()
+  .valid(...Object.values(RiskLevel))
+  .messages({
+    "string.empty": "Risk type cannot be empty",
+    "any.required": "Risk type is required",
+    "any.only": "Risk type must be one of the following: high, low or medium",
+  });
+
+  export const requirePosition = Joi.string()
+  .required()
+  .valid(...Object.values(Position))
+  .messages({
+    "string.empty": "Position type cannot be empty",
+    "any.required": "Position type is required",
+    "any.only": "Position type must be one of the following: buy or sell",
+  });
