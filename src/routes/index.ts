@@ -16,6 +16,7 @@ import { handleManualTrade } from "../controllers/trades/createManualTrade.contr
 import { handleUpdateManualTrade } from "../controllers/trades/updateManualTrade.controller";
 import { handleGetTrade } from "../controllers/trades/getTradeById.controller";
 import { handleGetTrades } from "../controllers/trades/getAllTRades.controller";
+import { handleDeleteTrades } from "../controllers/trades/deleteTrades.controller";
 
 router.post("/sign-up",registerValidate, register);
 router.post("/sign-in",loginValidate, handleLogin)
@@ -26,5 +27,7 @@ router.post("/add-manual-trade",manualTradeValidate, handleManualTrade)
 router.put("/update-trade/:id", handleUpdateManualTrade)
 router.get("/get-trade/:id", handleGetTrade)
 router.get("/get-all-trades", handleGetTrades)
+// handle delete request with post because want to send the id'd in the body
+router.post("/delete-trades", handleDeleteTrades)
 router.post('/test', validateFirebaseToken)
 export default router;
