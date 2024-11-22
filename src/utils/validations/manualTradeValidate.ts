@@ -1,47 +1,35 @@
 import { Request, Response } from "express";
 import { responseHandler } from "../responseHandler";
 import {
-  requireAskPrice,
-  requireBidPrice,
+  requirePrice,
   requireCallOrPut,
-  requiredIsFavourite,
   requireEnteryDate,
   requireEnteryTime,
-  requireExecutionPrice,
   requireExpireDate,
-  requireExpireTime,
-  requireOpenInterest,
-  requirePrem,
   requireRegion,
-  requireSentiment,
-  requireSpot,
   requireStrike,
   requireTicker,
   requireTradeType,
   requireVolume,
+  requireRiskLevel,
+  requirePosition,
 } from "./commonSchema";
 import * as Joi from "joi";
 import { decodeDetails } from "../../services/user.services";
 
 const tradeSchema = Joi.object({
-  isFavourite: requiredIsFavourite,
   entryDate: requireEnteryDate,
   entryTime: requireEnteryTime,
   expirationDate: requireExpireDate,
-  expirationTime: requireExpireTime,
   strike: requireStrike,
-  spot: requireSpot,
+  price: requirePrice,
   callOrPut: requireCallOrPut,
-  bidPrice: requireBidPrice,
-  askPrice: requireAskPrice,
-  sentiment: requireSentiment,
-  execution: requireExecutionPrice,
-  openInterest: requireOpenInterest,
   volume: requireVolume,
-  prem: requirePrem,
   type: requireTradeType,
   ticker: requireTicker,
-  region : requireRegion
+  region : requireRegion,
+  riskLevel : requireRiskLevel,
+  position : requirePosition
 });
 
 // Validation middleware
