@@ -1,3 +1,4 @@
+import { JWT_SECRET } from "../utils/envConstants";
 import User from "../models/usersModel";
 import * as  jwt from "jsonwebtoken"; 
 
@@ -17,8 +18,19 @@ export const createExpirationTime = () => {
 };
 
 
-export const encodeDefaultAccountId = (defaultAccountId: string) => {
-  const secretKey = process.env.JWT_SECRET || "your_secret_key"; 
-  const token = jwt.sign({ defaultAccountId }, secretKey); 
+export const encodeDetails = (data : any) => {
+  const secretKey = JWT_SECRET || "your_secret_key"; 
+  const token = jwt.sign(data, secretKey); 
   return token;
+};
+
+export const decodeDetails = (token: string) => {
+  const secretKey = JWT_SECRET || "your_secret_key"; 
+  try {
+    const decodedData = jwt.verify(token, secretKey);
+    return decodedData;
+  } catch (error) {
+    console.error("Invalid token:", error);
+    return null; 
+  }
 };
