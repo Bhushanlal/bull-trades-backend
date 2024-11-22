@@ -16,14 +16,14 @@ export const handleGetTrades = async (req: Request, res: Response) => {
 
     // Get total count for pagination
     const totalTrades = await Trade.countDocuments({
-    //   userId,
-    //   accountId: defaultAccountId,
+      userId,
+      accountId: defaultAccountId,
     });
 
     // Get trades with pagination
     const trades = await Trade.find({
-    //   userId,
-    //   accountId: defaultAccountId,
+      userId,
+      accountId: defaultAccountId,
     })
       .sort({ createdAt: -1 }) // Sort by newest first
       .skip(skip)
