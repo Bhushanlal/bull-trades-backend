@@ -18,26 +18,34 @@ export const handleGetTrades = async (req: Request, res: Response) => {
     const totalTrades = await Trade.countDocuments({
       userId,
       accountId: defaultAccountId,
+      idDeleted: false
     });
 
     // Get trades with pagination
     const trades = await Trade.find({
-      userId,
-      accountId: defaultAccountId,
+        userId,
+        accountId: defaultAccountId,
+        idDeleted: false
     })
       .sort({ createdAt: -1 }) // Sort by newest first
       .skip(skip)
       .limit(limit);
 
-    return responseHandler(res, false, "Trades fetched successfully", {
-      trades,
-      pagination: {
-        currentPage: page,
-        totalPages: Math.ceil(totalTrades / limit),
-        totalItems: totalTrades,
-        itemsPerPage: limit,
+    return responseHandler(
+      res,
+      false,
+      "Trades fetched successfully",
+      {
+        trades,
+        pagination: {
+          currentPage: page,
+          totalPages: Math.ceil(totalTrades / limit),
+          totalItems: totalTrades,
+          itemsPerPage: limit,
+        },
       },
-    }, 200);
+      200
+    );
   } catch (error) {
     console.error(error);
     return responseHandler(

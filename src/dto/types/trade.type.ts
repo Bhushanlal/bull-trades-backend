@@ -15,5 +15,7 @@ export interface ITrade extends Document {
   accountId: Schema.Types.ObjectId;
   userId: Schema.Types.ObjectId;
   riskLevel: RiskLevel,
-  position : Position
+  position : Position,
+  isDeleted: boolean,
+  deletedAt: Date | null
 }
