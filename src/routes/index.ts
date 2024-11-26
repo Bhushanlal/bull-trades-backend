@@ -24,7 +24,7 @@ router.post("/check-user-exist",userEmailRequireValidate, handleCheckUserExist)
 router.put("/update-user-status",userEmailRequireValidate, handleUpdateUserIsVerified)
 router.post("/create-otp",userEmailRequireValidate, createOtp)
 router.post("/add-manual-trade",manualTradeValidate, handleManualTrade)
-router.put("/update-trade/:id", handleUpdateManualTrade)
+router.put("/update-trade/:id",manualTradeValidate, handleUpdateManualTrade)
 router.get("/get-trade/:id", handleGetTrade)
 router.get("/get-all-trades", handleGetTrades)
 // handle delete request with post because want to send the id'd in the body
