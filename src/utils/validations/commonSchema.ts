@@ -146,14 +146,14 @@ export const requireTradeType = Joi.string()
 export const requireTicker = Joi.string()
   .trim()
   .min(1)
-  .max(20)
+  .max(50)
   .pattern(/^(?!.*--).*$/, { name: "no consecutive hyphens" })
   .pattern(/^[A-Z0-9]+(-[A-Z0-9]+)*$/, { name: "uppercase pattern" })
   .required()
   .messages({
     "string.base": "Ticker must be a string",
     "string.min": "Ticker must be at least 1 character long",
-    "string.max": "Ticker must be at most 20 characters long",
+    "string.max": "Ticker must be at most 50 characters long",
     "string.pattern.name":
       "Ticker must be 1-20 characters long, using only uppercase letters or digits, hyphens, and no consecutive hyphens.",
     "any.required": "Ticker is required",
