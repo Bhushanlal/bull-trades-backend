@@ -33,7 +33,7 @@ const tradeSchema = new Schema<ITrade>(
       enum: Object.values(CallOrPut),
       required: true,
     },
-    volume: {
+    size: {
       type: Number,
       required: true,
     },

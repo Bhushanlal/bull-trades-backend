@@ -24,7 +24,7 @@ const tradeSchema = Joi.object({
   strike: requireStrike,
   price: requirePrice,
   callOrPut: requireCallOrPut,
-  volume: requireVolume,
+  size: requireVolume,
   type: requireTradeType,
   ticker: requireTicker,
   region : requireRegion,
