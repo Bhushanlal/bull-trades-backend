@@ -126,10 +126,11 @@ export const requireCallOrPut = Joi.string()
 
 
 export const requireVolume = Joi.number().min(0).required().messages({
-  "number.base": "Volume must be a number",
-  "any.required": "Volume is required",
-  "number.min": "Volume must be greater than 0",
-  "number.integer": "Volume must be Integer",
+  "number.base": "Size must be a number",
+  "any.required": "Size is required",
+  "number.min": "Size must be greater than 0",
+  "number.integer": "Size must be Integer",
+  "number.safe" : "Size is not a safe number"
 });
 
 

@@ -9,7 +9,7 @@ export interface ITrade extends Document {
   strike: number;
   price: number;
   callOrPut: CallOrPut;
-  volume: number;
+  size: number;
   type: TradeType;
   ticker: string;
   accountId: Schema.Types.ObjectId;
