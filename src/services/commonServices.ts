@@ -41,6 +41,6 @@ export function convertToUTC(dateTime: any, fromTimezone: any) {
   }
 
   export const findTradeWithId = async (tradeId: string) => {
-    const user = await Trade.findOne({ _id:tradeId });
+    const user = await Trade.findOne({ _id: tradeId, isDeleted: false });
     return user ? user : null;
   };
