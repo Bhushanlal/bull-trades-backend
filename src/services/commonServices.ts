@@ -31,13 +31,19 @@ export function convertToUTC(dateTime: any, fromTimezone: any) {
   }
 
   // New function to convert date to UTC at the start of the day
-  export const formatDateStringToUTC = (date: any, region: string) => {
-    const dateMoment = moment(date, "YYYY/DD/MM").local();
-    const datetimeMoment = dateMoment
-      .set({ hour: 0, minute: 0, second: 0 }) // Set to start of the day
-      .format("YYYY-MM-DDTHH:mm:ss");
-    const entryUTCDate = convertToUTC(datetimeMoment, region || "UTC");
-    return entryUTCDate;
+  export const formatDateStringToUTC = (date: any, region: any) => {
+    try {
+      const dateMoment = moment(date, "YYYY/DD/MM").local();
+      const datetimeMoment = dateMoment
+        .set({ hour: 0, minute: 0, second: 0 }) // Set to start of the day
+        .format("YYYY-MM-DDTHH:mm:ss");
+      const entryUTCDate = convertToUTC(datetimeMoment, region || "UTC");
+      
+      return entryUTCDate;
+    } catch (error) {
+     console.log(error, 'error');
+      
+    }
   }
 
   export const findTradeWithId = async (tradeId: string) => {
