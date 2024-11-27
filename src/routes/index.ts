@@ -28,6 +28,6 @@ router.put("/update-trade/:id",manualTradeValidate, handleUpdateManualTrade)
 router.get("/get-trade/:id", handleGetTrade)
 router.get("/get-all-trades", handleGetTrades)
 // handle delete request with post because want to send the id'd in the body
-router.post("/delete-trades", handleDeleteTrades)
+router.delete("/delete-trade/:id", handleDeleteTrades)
 router.post('/test', validateFirebaseToken)
 export default router;
