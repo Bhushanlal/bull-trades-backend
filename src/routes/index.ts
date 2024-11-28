@@ -20,14 +20,14 @@ import { handleDeleteTrades } from "../controllers/trades/deleteTrades.controlle
 
 router.post("/sign-up",registerValidate, register);
 router.post("/sign-in",loginValidate, handleLogin)
-router.post("/check-user-exist",userEmailRequireValidate, handleCheckUserExist)
-router.put("/update-user-status",userEmailRequireValidate, handleUpdateUserIsVerified)
+router.post("/check-user-exist",validateFirebaseToken, userEmailRequireValidate, handleCheckUserExist)
+router.put("/update-user-status",validateFirebaseToken, userEmailRequireValidate, handleUpdateUserIsVerified)
 router.post("/create-otp",userEmailRequireValidate, createOtp)
-router.post("/add-manual-trade",manualTradeValidate, handleManualTrade)
-router.put("/update-trade/:id",manualTradeValidate, handleUpdateManualTrade)
-router.get("/get-trade/:id", handleGetTrade)
-router.get("/get-all-trades", handleGetTrades)
+router.post("/add-manual-trade", validateFirebaseToken, manualTradeValidate, handleManualTrade)
+router.put("/update-trade/:id", validateFirebaseToken, manualTradeValidate, handleUpdateManualTrade)
+router.get("/get-trade/:id", validateFirebaseToken, handleGetTrade)
+router.get("/get-all-trades", validateFirebaseToken, handleGetTrades)
 // handle delete request with post because want to send the id'd in the body
-router.delete("/delete-trade/:id", handleDeleteTrades)
+router.delete("/delete-trade/:id", validateFirebaseToken, handleDeleteTrades)
 router.post('/test', validateFirebaseToken)
 export default router;

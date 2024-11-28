@@ -20,7 +20,7 @@ const handleLogin = async (req: Request, res: Response) => {
       );
     }
 
-    if (otp !== user.otp) {
+    if (Number(otp) !== user.otp) {
       return responseHandler(res, true, "Invalid OTP", null, 401);
     }
     const currentTime = new Date();

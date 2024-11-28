@@ -21,16 +21,21 @@ export const validateFirebaseToken = async (
       );
     }
     try {
-      const appCheckClaims = await getAppCheck().verifyToken(accessToken);
       const decodedToken = await admin.auth().verifyIdToken(accessToken);
-      console.log(decodedToken, '');
-      
+
+      if (!decodedToken.email_verified) {
+        return responseHandler(
+          res,
+          true,
+          "Email not verified! Please verify your email.",
+          null,
+          400
+        );
+      }
+
       req.user = decodedToken;
-      console.log(appCheckClaims, "appCheckClaims");
 
       next();
-      // for testing the token
-      return responseHandler(res, false, "Verified", null, 200);
     } catch (error) {
       console.log(error, "error");
 
