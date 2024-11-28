@@ -17,6 +17,8 @@ import { handleUpdateManualTrade } from "../controllers/trades/updateManualTrade
 import { handleGetTrade } from "../controllers/trades/getTradeById.controller";
 import { handleGetTrades } from "../controllers/trades/getAllTRades.controller";
 import { handleDeleteTrades } from "../controllers/trades/deleteTrades.controller";
+import { handleUploadTrades } from "../controllers/trades/uploadTrades.controller";
+import multerUpload from "../utils/storeCsv"
 
 router.post("/sign-up",registerValidate, register);
 router.post("/sign-in",loginValidate, handleLogin)
@@ -29,5 +31,7 @@ router.get("/get-trade/:id", validateFirebaseToken, handleGetTrade)
 router.get("/get-all-trades", validateFirebaseToken, handleGetTrades)
 // handle delete request with post because want to send the id'd in the body
 router.delete("/delete-trade/:id", validateFirebaseToken, handleDeleteTrades)
+// handle file upload for trades
+router.post("/upload-trades",multerUpload.single("file"), handleUploadTrades)
 router.post('/test', validateFirebaseToken)
 export default router;

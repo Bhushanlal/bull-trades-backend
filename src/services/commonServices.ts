@@ -1,6 +1,11 @@
 import * as momentTZ from "moment-timezone";
 import * as moment from "moment"
 import Trade from "../models/tradeModel";
+import { createReadStream } from "fs";
+import * as XLSX from "xlsx";
+import { parse } from "fast-csv";
+import * as fs from "fs";
+
 export function convertToUTC(dateTime: any, fromTimezone: any) {
     try {
       // Validate timezone
@@ -49,4 +54,35 @@ export function convertToUTC(dateTime: any, fromTimezone: any) {
   export const findTradeWithId = async (tradeId: string) => {
     const user = await Trade.findOne({ _id: tradeId, isDeleted: false });
     return user ? user : null;
+  };
+
+
+  export const parseCSV = (path: string) => {
+    return new Promise((resolve, reject) => {
+      const rows = [];
+      createReadStream(path)
+        .pipe(parse({ headers: true }))
+        .on("data", (row) => rows.push(row))
+        .on("end", () => resolve(rows))
+        .on("error", (error) => reject(error));
+    });
+  };
+
+  export const parseExcel = (path: string) => {
+    const workbook = XLSX.readFile(path);
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    return XLSX.utils.sheet_to_json(sheet);
+  };
+
+  export const safeDeleteFile = async (filePath: string) => {
+    try {
+      if (filePath && fs.existsSync(filePath)) {
+        await fs.promises.unlink(filePath);
+      } else {
+        console.log("File does not exist:", filePath);
+      }
+    } catch (err) {
+      console.error("Error during file deletion:", err);
+    }
   };
