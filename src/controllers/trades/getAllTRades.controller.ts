@@ -65,7 +65,9 @@ export const handleGetTrades = async (req: Request, res: Response) => {
       query.price = { ...query.price, $lte: priceEnd }; 
     }
 
+    
     if (expirationStartFormatted) {
+      console.log(expirationStartFormatted, 'expirationStartFormatted');
       query.expirationDate = {
         ...query.expirationDate,
         $gte: expirationStartFormatted,
@@ -77,7 +79,6 @@ export const handleGetTrades = async (req: Request, res: Response) => {
         $lte: expirationEndFormatted,
       }; 
     }
-
     // Get total count for pagination
     const totalTrades = await Trade.countDocuments(query);
     const trades = await Trade.find(query)

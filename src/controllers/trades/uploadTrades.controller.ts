@@ -57,11 +57,11 @@ export const handleUploadTrades = async (req: Request, res: Response) => {
 
       let entryDate: any = trade.entryDate;
       let expirationDate: any = trade.expirationDate;
-      if (
-        !moment(expirationDate, "YYYY/DD/MM").isAfter(
-          moment(entryDate, "YYYY/DD/MM")
-        )
-      ) {
+      
+      
+      if (!moment(entryDate, "YYYY/DD/MM").isSameOrBefore(
+        moment(expirationDate, "YYYY/DD/MM")
+      ))  {
         validationErrors.push(
           "Expiration date cannot be greater than the entry date."
         );
