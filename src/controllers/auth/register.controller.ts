@@ -16,7 +16,7 @@ export const register = async (req: Request, res: Response) => {
         return responseHandler(res, true, "User already exists", null, 400);
       }
     }
-    if (provider === Provider .GOOGLE) {
+    if (provider === Provider.GOOGLE) {
       if (user) {
         await User.updateOne( 
           { email: email, isDeleted: false },
