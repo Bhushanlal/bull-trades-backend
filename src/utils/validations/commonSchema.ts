@@ -179,11 +179,109 @@ export const requireRiskLevel = Joi.string()
     "any.only": "Risk type must be one of the following: high, low or medium",
   });
 
-  export const requirePosition = Joi.string()
+export const requirePosition = Joi.string()
   .required()
   .valid(...Object.values(Position))
   .messages({
     "string.empty": "Position type cannot be empty",
     "any.required": "Position type is required",
     "any.only": "Position type must be one of the following: buy or sell",
+  });
+
+export const optionalSizeGrt500 = Joi.string()
+  .optional()
+  .allow(null, '')
+  .messages({
+    "any.only": "SizeGrt500 type must be string",
+  });
+
+export const optionalCallOrPut = Joi.string()
+  .optional()
+  .allow(null, '')
+  .valid(...Object.values(CallOrPut))
+  .messages({
+    "any.only": "Call/put must be one of the following: call or put",
+  });
+
+export const optionalRiskLevel = Joi.string()
+  .optional()
+  .allow(null, '')
+  .valid(...Object.values(RiskLevel))
+  .messages({
+    "any.only": "Risk type must be one of the following: high, low or medium",
+  });
+
+export const optionalPriceStart = Joi.number()
+  .optional()
+  .allow(null, '')
+  .messages({
+    "any.only": "PriceStart type must be number",
+  });
+
+export const optionalPriceEnd = Joi.number()
+  .optional()
+  .allow(null, '')
+  .messages({
+    "any.only": "PriceEnd type must be number",
+  });
+
+export const optionalExpirationStart = Joi.string()
+  .optional()
+  .allow(null, '')
+  .trim()
+  .pattern(dateFormatRegex)
+  .messages({
+    "string.base": "Expiration Date must be a string",
+    "string.pattern.base": "Expiration Date must be in the format yyyy/dd/mm",
+  });
+
+export const optionalExpirationEnd = Joi.string()
+  .optional()
+  .allow(null, '')
+  .trim()
+  .pattern(dateFormatRegex)
+  .messages({
+    "string.base": "Expiration Date must be a string",
+    "string.pattern.base": "Expiration Date must be in the format yyyy/dd/mm",
+  });
+
+export const optionalRegion = Joi.string()
+  .optional()
+  .allow(null, '')
+  .min(0)
+  .max(80)
+  .messages({
+    "string.base": "Region must be a string",
+    "string.min": "Region must be at least 3 characters long",
+    "string.max": "Region cannot be longer than 80 characters",
+    "string.pattern.base":
+      "Region cannot contain leading or trailing spaces. Please enter a valid Region",
+  });
+
+export const optionalTicker = Joi.string()
+  .optional()
+  .allow(null, '')
+  .trim()
+  .min(1)
+  .max(50)
+  .pattern(/^(?!.*--).*$/, { name: "no consecutive hyphens" })
+  .pattern(/^[A-Z0-9]+(-[A-Z0-9]+)*$/, { name: "uppercase pattern" })
+  .messages({
+    "string.base": "Ticker must be a string",
+    "string.min": "Ticker must be at least 1 character long",
+    "string.max": "Ticker must be at most 50 characters long",
+    "string.pattern.name":
+      "Ticker must be 1-20 characters long, using only uppercase letters or digits, hyphens, and no consecutive hyphens.",
+  });
+
+export const querySchemaPage = Joi.number()
+  .integer()
+  .min(1)
+  .optional()
+  .allow(null)
+  .default(1)
+  .messages({
+    "number.base": "Page must be a number",
+    "number.integer": "Page must be an integer",
+    "number.min": "Page must be at least 1",
   });
