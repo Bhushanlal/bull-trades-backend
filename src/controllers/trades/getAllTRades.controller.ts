@@ -28,6 +28,16 @@ export const handleGetTrades = async (req: Request, res: Response) => {
       ticker
     } = req.query;
 
+    if (priceEnd && (priceStart > priceEnd)) {
+      return responseHandler(
+        res,
+        true,
+        "PriceStart must be smaller than PriceEnd",
+        null,
+        400
+      );
+    }
+
     // Format expiration dates based on region
     let expirationStartFormatted: any = "";
     let expirationEndFormatted: any = "";
@@ -52,7 +62,7 @@ export const handleGetTrades = async (req: Request, res: Response) => {
     if (ticker) {
       query.ticker = { $regex: ticker, $options: 'i' };
     }
-    if (sizeGrt500) {
+    if (sizeGrt500 == "true") {
       query.size = { $gt: 500 };
     }
     if (riskLevel) {
@@ -67,7 +77,6 @@ export const handleGetTrades = async (req: Request, res: Response) => {
 
     
     if (expirationStartFormatted) {
-      console.log(expirationStartFormatted, 'expirationStartFormatted');
       query.expirationDate = {
         ...query.expirationDate,
         $gte: expirationStartFormatted,
