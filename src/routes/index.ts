@@ -19,7 +19,7 @@ import { handleGetTrades } from "../controllers/trades/getAllTRades.controller";
 import { handleDeleteTrades } from "../controllers/trades/deleteTrades.controller";
 import { handleUploadTrades } from "../controllers/trades/uploadTrades.controller";
 import multerUpload from "../utils/storeCsv"
-import { handleBenzingaOptionActivity } from "../controllers/optionActivity/benzingaActivity.controller";
+import { allTradeValidate } from "../utils/validations/allTradeValidate";
 
 router.post("/sign-up",registerValidate, register);
 router.post("/sign-in",loginValidate, handleLogin)
@@ -29,10 +29,10 @@ router.post("/create-otp",userEmailRequireValidate, createOtp)
 router.post("/add-manual-trade", validateFirebaseToken, manualTradeValidate, handleManualTrade)
 router.put("/update-trade/:id", validateFirebaseToken, manualTradeValidate, handleUpdateManualTrade)
 router.get("/get-trade/:id", validateFirebaseToken, handleGetTrade)
-router.get("/get-all-trades", validateFirebaseToken, handleGetTrades)
+router.get("/get-all-trades", validateFirebaseToken, allTradeValidate, handleGetTrades)
 // handle delete request with post because want to send the id'd in the body
 router.delete("/delete-trade/:id", validateFirebaseToken, handleDeleteTrades)
 // handle file upload for trades
 router.post("/upload-trades",multerUpload.single("file"), handleUploadTrades)
-router.get('/test', handleBenzingaOptionActivity)
+// router.get('/test', handleBenzingaOptionActivity)
 export default router;

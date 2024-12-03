@@ -67,6 +67,17 @@ export const handleUploadTrades = async (req: Request, res: Response) => {
         );
         break; 
       }
+
+      if (
+        moment(entryDate, "YYYY/DD/MM").isSame(moment(), "day") &&
+        moment(trade.entryTime, "HH:mm:ss").isAfter(moment(), "second")
+      ) {
+        validationErrors.push(
+          "Entry time cannot be greater than the current time."
+        );
+        break;
+      }      
+      
       let entryDateFormat: any = "";
       if (entryDate) {
         entryDateFormat = formatDateTimeString(
