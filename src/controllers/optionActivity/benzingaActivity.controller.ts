@@ -18,20 +18,18 @@ const fetchBenzingaOptionActivity = async () => {
     const optionActivityData = benzingaResponse.data.option_activity;
 
     if (optionActivityData && optionActivityData.length > 0) {
-      const bulkOps = optionActivityData.map((activity) => ({
+      const bulkOps = optionActivityData.map((activity: any) => ({
         updateMany: {
           filter: { id: activity.id },
           update: { $set: activity },
           upsert: true,
         },
       }));
-
-      await OptionActivity.bulkWrite(bulkOps);
-      console.log(
-        `Successfully updated ${optionActivityData.length} records at ${moment()
-          .tz("America/New_York")
-          .format("YYYY-MM-DD HH:mm:ss")}`
-      );
+      try {
+        const result = await OptionActivity.bulkWrite(bulkOps);
+      } catch (bulkWriteError) {
+        console.error("Error during bulk write:", bulkWriteError);
+      }
     }
   } catch (error) {
     console.error("Benzinga API error:", error);
