@@ -2,14 +2,17 @@ import { Request, Response, NextFunction } from "express";
 import { auth } from "firebase-admin";
 import { responseHandler } from "./responseHandler";
 import admin from "./firebaseConfig";
-import { getAppCheck } from "firebase-admin/app-check";
+// import { getAppCheck } from "firebase-admin/app-check";
+import User from "../models/usersModel";
+import { encodeDetails, findUserWithEmail } from "../services/user.services";
 export const validateFirebaseToken = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const accessToken = req.cookies.access_token;
+    // Get the token from the headers
+    const accessToken = req.headers.authorization.split(' ')[1];
 
     if (!accessToken) {
       return responseHandler(
@@ -34,6 +37,29 @@ export const validateFirebaseToken = async (
       }
 
       req.user = decodedToken;
+      // Get user details
+      const user = await findUserWithEmail(req.user.email);
+      // Check if both tokens are same ?
+      if (user.token != accessToken) {
+        await User.updateOne(
+          { email: user.email, isDeleted: false },
+          {
+            token: accessToken,
+            updatedAt: new Date(),
+            otp: null,
+            otpExpiredAt: null,
+          }
+        );
+        const dateToBeEncoded = {
+          userId : user._id,
+          defaultAccountId: user.defaultAccount,
+        }
+        
+        const encodeDefaultId = encodeDetails(dateToBeEncoded);
+        // Set the new token in cookies 
+        res.cookie("access_token", accessToken, { httpOnly: true });
+        res.cookie("user_detail", encodeDefaultId, { httpOnly: true });
+      }
 
       next();
     } catch (error) {
