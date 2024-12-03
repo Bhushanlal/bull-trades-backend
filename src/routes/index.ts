@@ -20,6 +20,7 @@ import { handleDeleteTrades } from "../controllers/trades/deleteTrades.controlle
 import { handleUploadTrades } from "../controllers/trades/uploadTrades.controller";
 import multerUpload from "../utils/storeCsv"
 import { allTradeValidate } from "../utils/validations/allTradeValidate";
+import { handleGetOptionActivity } from "../controllers/optionActivity/getOptionActivity.controller";
 
 router.post("/sign-up",registerValidate, register);
 router.post("/sign-in",loginValidate, handleLogin)
@@ -34,5 +35,6 @@ router.get("/get-all-trades", validateFirebaseToken, allTradeValidate, handleGet
 router.delete("/delete-trade/:id", validateFirebaseToken, handleDeleteTrades)
 // handle file upload for trades
 router.post("/upload-trades",multerUpload.single("file"), handleUploadTrades)
+router.get("/get-option-activity", handleGetOptionActivity)
 // router.get('/test', handleBenzingaOptionActivity)
 export default router;
