@@ -1,0 +1,29 @@
+export interface IOptionActivity {
+    id: string;
+    date: string;
+    time: string;
+    ticker: string;
+    exchange: string;
+    description: string;
+    description_extended: string;
+    updated: number;
+    sentiment: string;
+    aggressor_ind: string;
+    option_symbol: string;
+    underlying_type: string;
+    underlying_price: string;
+    cost_basis: string;
+    put_call: string;
+    strike_price: string;
+    price: string;
+    size: string;
+    date_expiration: string;
+    option_activity_type: string;
+    trade_count: string;
+    open_interest: string;
+    volume: string;
+    bid: string;
+    ask: string;
+    midpoint: string;
+    execution_estimate: string;
+}

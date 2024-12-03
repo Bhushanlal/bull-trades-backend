@@ -22,4 +22,5 @@ export interface IUser extends Document {
   updatedAt: Date;
   createdAt: Date;
   deletedAt: Date | null;
+  optionFlowRefresh: boolean
 }

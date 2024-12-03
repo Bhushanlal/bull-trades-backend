@@ -96,6 +96,10 @@ const userSchema = new Schema<IUser>({
   defaultAccount : {
     type: String,
     default: ""
+  },
+  optionFlowRefresh: {
+    type: Boolean,
+     default: false
   }
 }, {
   timestamps: true

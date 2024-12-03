@@ -19,6 +19,7 @@ import { handleGetTrades } from "../controllers/trades/getAllTRades.controller";
 import { handleDeleteTrades } from "../controllers/trades/deleteTrades.controller";
 import { handleUploadTrades } from "../controllers/trades/uploadTrades.controller";
 import multerUpload from "../utils/storeCsv"
+import { handleBenzingaOptionActivity } from "../controllers/optionActivity/benzingaActivity.controller";
 
 router.post("/sign-up",registerValidate, register);
 router.post("/sign-in",loginValidate, handleLogin)
@@ -33,5 +34,5 @@ router.get("/get-all-trades", validateFirebaseToken, handleGetTrades)
 router.delete("/delete-trade/:id", validateFirebaseToken, handleDeleteTrades)
 // handle file upload for trades
 router.post("/upload-trades",multerUpload.single("file"), handleUploadTrades)
-router.post('/test', validateFirebaseToken)
+router.get('/test', handleBenzingaOptionActivity)
 export default router;
