@@ -45,3 +45,17 @@ export const decodeDetails = (token: string) => {
     return null; 
   }
 };
+
+export const dataFormatForLocalStorage = (user : any) =>{
+  const userDetails = {
+    email: user.email,
+    fullname: user.fullname,
+    _id: user._id,
+    phoneNumber: user.phoneNumber,
+    profilePicture: user.profilePicture,
+    optionFlowRefresh: user.optionFlowRefresh
+      ? user.optionFlowRefresh
+      : false,
+  };
+  return userDetails;
+}

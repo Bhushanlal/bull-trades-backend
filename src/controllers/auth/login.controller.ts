@@ -1,7 +1,12 @@
 import { Request, Response } from "express";
 import { responseHandler } from "../../utils/responseHandler";
 import User from "../../models/usersModel";
-import { encodeDetails, findUserWithEmail } from "../../services/user.services";
+import {
+  dataFormatForLocalStorage,
+  encodeDetails,
+  findUserWithEmail,
+  getUserWithId,
+} from "../../services/user.services";
 
 const handleLogin = async (req: Request, res: Response) => {
   try {
@@ -43,14 +48,15 @@ const handleLogin = async (req: Request, res: Response) => {
       }
     );
     const dateToBeEncoded = {
-      userId : user._id,
-      defaultAccountId: user.defaultAccount
-    }
-    
-    const encodeDefaultId = encodeDetails(dateToBeEncoded)
+      userId: user._id,
+      defaultAccountId: user.defaultAccount,
+    };
+
+    const encodeDefaultId = encodeDetails(dateToBeEncoded);
+    const userDetails = dataFormatForLocalStorage(user);
     res.cookie("access_token", req.body.accessToken, { httpOnly: true });
     res.cookie("user_detail", encodeDefaultId, { httpOnly: true });
-    return responseHandler(res, false, "Login successful", null, 200);
+    return responseHandler(res, false, "Login successful", userDetails, 200);
   } catch (error) {
     console.error("Login error:", error);
     return responseHandler(res, true, "Error while login", null, 500);

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import User from "../../models/usersModel";
-import { encodeDetails, findUserWithEmail } from "../../services/user.services";
+import { dataFormatForLocalStorage, encodeDetails, findUserWithEmail } from "../../services/user.services";
 import { Provider } from "../../utils/enum";
 import { responseHandler } from "../../utils/responseHandler";
 import Account from "../../models/accountModel";
@@ -26,10 +26,11 @@ export const register = async (req: Request, res: Response) => {
           userId : user._id,
           defaultAccountId: user.defaultAccount
         }
+        const userDetails = dataFormatForLocalStorage(user);
         const encodeDefaultId = encodeDetails(dateToBeEncoded)
         res.cookie("access_token", req.body.accessToken, { httpOnly: true });
         res.cookie("user_detail", encodeDefaultId, { httpOnly: true });
-        return responseHandler(res, false, "Login successful", null, 200);
+        return responseHandler(res, false, "Login successful", userDetails, 200);
       }
     }
 
@@ -54,18 +55,20 @@ export const register = async (req: Request, res: Response) => {
     );
     if (provider === Provider .GOOGLE) {
       const dateToBeEncoded = {
-        userId : user._id,
-        defaultAccountId: user.defaultAccount
+        userId : newUser._id,
+        defaultAccountId: newAccount._id
       }
       const encodeDefaultId = encodeDetails(dateToBeEncoded)
       res.cookie("access_token", req.body.accessToken, { httpOnly: true });
       res.cookie("user_detail", encodeDefaultId, { httpOnly: true });
     }
+      
+    const userDetails = dataFormatForLocalStorage(newUser);
     return responseHandler(
       res,
       false,
       "User registered successfully",
-      newUser,
+      userDetails,
       201
     );
   } catch (error) {
