@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { IUser } from '../dto/types/user.type';
-import { ProfileVisibility, Provider, UserStatus } from '../utils/enum';
+import { ProfileVisibility, Provider, UserGender, UserStatus } from '../utils/enum';
 import { string } from 'joi';
 
 // Create the user schema
@@ -96,6 +96,11 @@ const userSchema = new Schema<IUser>({
   defaultAccount : {
     type: String,
     default: ""
+  },
+  gender: {
+    type: String,
+    enum: UserGender,
+    default: null
   }
 }, {
   timestamps: true

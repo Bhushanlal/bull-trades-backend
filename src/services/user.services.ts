@@ -7,6 +7,17 @@ export const findUserWithEmail = async (email: string) => {
   return user ? user : null;
 };
 
+export const getUserWithId = async (_id: string) => {
+  const user = await User.findOne({ _id, isDeleted: false })
+    .select('-token -provider -isDeleted -deletedAt -otp -otpExpiredAt -updatedAt -createdAt -__v -isVerified -profileVisibility');
+  return user ? user : null;
+};
+
+export const  findUserWithId = async (_id: string) => {
+  const user = await User.findOne({ _id, isDeleted: false })
+  return user ? user : null;
+};
+
 export const generateOtp = () => {
   const otp = Math.floor(Math.random() * 9000) + 1000;
   return otp;

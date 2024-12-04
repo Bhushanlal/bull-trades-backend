@@ -5,6 +5,7 @@ import {
   Provider,
   RiskLevel,
   TradeType,
+  UserGender,
 } from "../../utils/enum";
 
 export const requiredEmail = Joi.string().email().required().messages({
@@ -284,4 +285,24 @@ export const querySchemaPage = Joi.number()
     "number.base": "Page must be a number",
     "number.integer": "Page must be an integer",
     "number.min": "Page must be at least 1",
+  });
+
+export const optionalFullname = Joi.string().min(3).optional().messages({
+    "string.min": "Fullname must be at least 3 characters long",
+    "string.empty": "Fullname cannot be empty",
+  });
+
+export const optionalPhoneNumber = Joi.string()
+  .optional()
+  .min(5)
+  .max(16)
+  .messages({
+    "string.pattern.base": "Invalid phone number format.",
+  });
+
+export const optionalGender = Joi.string()
+  .optional()
+  .valid(...Object.values(UserGender))
+  .messages({
+    "any.only": "Gender must be one of the following: MALE or FEMALE.",
   });

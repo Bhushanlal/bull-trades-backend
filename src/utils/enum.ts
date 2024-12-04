@@ -39,3 +39,8 @@ export enum Provider {
     BUY = 'buy',
     SELL = 'sell'
   }
+
+  export enum UserGender {
+    MALE = 'male',
+    FEMALE = 'female'
+  }
