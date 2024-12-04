@@ -1,4 +1,4 @@
-import { ProfileVisibility, Provider, UserStatus } from "../../utils/enum";
+import { ProfileVisibility, Provider, UserGender, UserStatus } from "../../utils/enum";
 
 // Define the interface for the user document
 export interface IUser extends Document {
@@ -18,6 +18,7 @@ export interface IUser extends Document {
   status: UserStatus;
   otp: number | null;
   defaultAccount : String | null
+  gender: UserGender | null
   otpExpiredAt: Date | null;
   updatedAt: Date;
   createdAt: Date;

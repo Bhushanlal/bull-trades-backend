@@ -21,6 +21,9 @@ import { handleUploadTrades } from "../controllers/trades/uploadTrades.controlle
 import multerUpload from "../utils/storeCsv"
 import { allTradeValidate } from "../utils/validations/allTradeValidate";
 import { handleGetOptionActivity } from "../controllers/optionActivity/getOptionActivity.controller";
+import { handleUpdateUserProfile } from "../controllers/user/updateUserProfile.controller";
+import { handleGetUserProfile } from "../controllers/user/userProfile.controller";
+import { updateUserProfileValidate } from "../utils/validations/updateProfileValidate";
 
 router.post("/sign-up",registerValidate, register);
 router.post("/sign-in",loginValidate, handleLogin)
@@ -37,4 +40,9 @@ router.delete("/delete-trade/:id", validateFirebaseToken, handleDeleteTrades)
 router.post("/upload-trades",multerUpload.single("file"), handleUploadTrades)
 router.get("/get-option-activity", handleGetOptionActivity)
 // router.get('/test', handleBenzingaOptionActivity)
+router.post('/test', validateFirebaseToken);
+// handle User profile 
+router.get("/get-user-profile", validateFirebaseToken, handleGetUserProfile) 
+router.put("/update-user-profile/:id", validateFirebaseToken, updateUserProfileValidate, handleUpdateUserProfile) 
+
 export default router;
