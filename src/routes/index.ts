@@ -20,6 +20,9 @@ import { handleDeleteTrades } from "../controllers/trades/deleteTrades.controlle
 import { handleUploadTrades } from "../controllers/trades/uploadTrades.controller";
 import multerUpload from "../utils/storeCsv"
 import { allTradeValidate } from "../utils/validations/allTradeValidate";
+import { handleUpdateUserProfile } from "../controllers/user/updateUserProfile.controller";
+import { handleGetUserProfile } from "../controllers/user/userProfile.controller";
+import { updateUserProfileValidate } from "../utils/validations/updateProfileValidate";
 
 router.post("/sign-up",registerValidate, register);
 router.post("/sign-in",loginValidate, handleLogin)
@@ -34,5 +37,9 @@ router.get("/get-all-trades", validateFirebaseToken, allTradeValidate, handleGet
 router.delete("/delete-trade/:id", validateFirebaseToken, handleDeleteTrades)
 // handle file upload for trades
 router.post("/upload-trades",multerUpload.single("file"), handleUploadTrades)
-router.post('/test', validateFirebaseToken)
+router.post('/test', validateFirebaseToken);
+// handle User profile 
+router.get("/get-user-profile", validateFirebaseToken, handleGetUserProfile) 
+router.put("/update-user-profile/:id", validateFirebaseToken, updateUserProfileValidate, handleUpdateUserProfile) 
+
 export default router;

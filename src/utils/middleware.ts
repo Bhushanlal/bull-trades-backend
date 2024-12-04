@@ -12,7 +12,8 @@ export const validateFirebaseToken = async (
 ) => {
   try {
     // Get the token from the headers
-    const accessToken = req.headers.authorization.split(' ')[1];
+    const getAccessToken = req.headers.authorization
+    const accessToken = getAccessToken?.split(' ')[1];
 
     if (!accessToken) {
       return responseHandler(
@@ -74,6 +75,7 @@ export const validateFirebaseToken = async (
       );
     }
   } catch (error) {
+    console.log(error, "error");
     return responseHandler(res, true, "Internal server error", null, 500);
   }
 };
