@@ -28,7 +28,7 @@ export const handleGetTrades = async (req: Request, res: Response) => {
       ticker
     } = req.query;
 
-    if (priceEnd && (priceStart > priceEnd)) {
+    if (priceEnd && (+priceStart > +priceEnd)) {
       return responseHandler(
         res,
         true,
