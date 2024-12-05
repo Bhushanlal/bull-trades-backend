@@ -26,8 +26,8 @@ import { updateUserProfileValidate } from "../utils/validations/updateProfileVal
 
 router.post("/sign-up",registerValidate, register);
 router.post("/sign-in",loginValidate, handleLogin)
-router.post("/check-user-exist",validateFirebaseToken, userEmailRequireValidate, handleCheckUserExist)
-router.put("/update-user-status",validateFirebaseToken, userEmailRequireValidate, handleUpdateUserIsVerified)
+router.post("/check-user-exist", userEmailRequireValidate, handleCheckUserExist)
+router.put("/update-user-status", userEmailRequireValidate, handleUpdateUserIsVerified)
 router.post("/create-otp",userEmailRequireValidate, createOtp)
 router.post("/add-manual-trade", validateFirebaseToken, manualTradeValidate, handleManualTrade)
 router.put("/update-trade/:id", validateFirebaseToken, manualTradeValidate, handleUpdateManualTrade)
