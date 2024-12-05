@@ -30,13 +30,11 @@ router.post("/sign-up", registerValidate, register);
 router.post("/sign-in", loginValidate, handleLogin);
 router.post(
   "/check-user-exist",
-  validateFirebaseToken,
   userEmailRequireValidate,
   handleCheckUserExist
 );
 router.put(
   "/update-user-status",
-  validateFirebaseToken,
   userEmailRequireValidate,
   handleUpdateUserIsVerified
 );

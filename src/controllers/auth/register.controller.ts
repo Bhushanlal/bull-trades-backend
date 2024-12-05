@@ -41,7 +41,7 @@ export const register = async (req: Request, res: Response) => {
       provider,
       fullname,
       token: accessToken,
-      isVerified :provider === Provider .GOOGLE ? true: false ,
+      isVerified :provider === Provider.GOOGLE ? true: false ,
       profilePicture: profilePicture ? profilePicture : null,
     });
     // Create new account
@@ -53,7 +53,7 @@ export const register = async (req: Request, res: Response) => {
       { _id: newUser._id },
       { defaultAccount: newAccount._id }
     );
-    if (provider === Provider .GOOGLE) {
+    if (provider === Provider.GOOGLE) {
       const dateToBeEncoded = {
         userId : newUser._id,
         defaultAccountId: newAccount._id
