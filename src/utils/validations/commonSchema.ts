@@ -1,5 +1,6 @@
 import * as Joi from "joi";
 import {
+  AutoRefColumnName,
   CallOrPut,
   Position,
   Provider,
@@ -305,4 +306,18 @@ export const optionalGender = Joi.string()
   .valid(...Object.values(UserGender))
   .messages({
     "any.only": "Gender must be one of the following: MALE or FEMALE.",
+  });
+
+  export const requiredAutRefColName = Joi.string()
+  .required()
+  .valid(...Object.values(AutoRefColumnName))
+  .messages({
+    "string.empty": "Auto refresh col name cannot be empty",
+    "any.required": "Auto refresh col name is required",
+    "any.only": `Auto refresh col name type must be one of the following: ${Object.values(AutoRefColumnName)}`,
+  });
+
+  export const requiredAutoRefValue = Joi.boolean().required().messages({
+    "boolean.base": "Auto refresh column value must be a boolean",
+    "any.required": "Auto refresh column value is required",
   });

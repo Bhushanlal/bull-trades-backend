@@ -97,6 +97,10 @@ const userSchema = new Schema<IUser>({
     type: String,
     default: ""
   },
+  optionFlowRefresh: {
+    type: Boolean,
+     default: false
+  },
   gender: {
     type: String,
     enum: UserGender,

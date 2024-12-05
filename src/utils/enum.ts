@@ -44,3 +44,7 @@ export enum Provider {
     MALE = 'male',
     FEMALE = 'female'
   }
+
+  export enum AutoRefColumnName {
+    OPTION_FLOW_REFRESH = "optionFlowRefresh"
+  }
