@@ -60,7 +60,9 @@ export const initializeBenzingaCron = () => {
       // Convert to numbers for comparison
       const hours = parseInt(
         now.toLocaleString("en-US", {
-          timeZone: "America/New_York",
+          //change to "America/New_York" for EST
+          //Asia/Kolkata
+          timeZone: "Asia/Kolkata",
           hour: "numeric",
           hour12: false,
         }),
@@ -68,7 +70,7 @@ export const initializeBenzingaCron = () => {
       );
       const minutes = parseInt(
         now.toLocaleString("en-US", {
-          timeZone: "America/New_York",
+          timeZone: "Asia/Kolkata",
           minute: "numeric",
           hour12: false,
         }),
@@ -82,7 +84,7 @@ export const initializeBenzingaCron = () => {
       await fetchBenzingaOptionActivity();
     },
     {
-      timezone: "America/New_York",
+      timezone: "Asia/Kolkata",
     }
   );
 };
