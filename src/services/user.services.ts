@@ -50,8 +50,12 @@ export const decodeDetails = (token: string) => {
 export const dataFormatForLocalStorage = async (user: any) => {
   let profilePicture = null;
 
-  // Check if profilePicture exists before getting the presigned URL
-  if (user.profilePicture) {
+  // Check for User provider and profilePicture
+  if (user.provider === "google" && user.profilePicture) {
+    profilePicture = /profiles/.test(user.profilePicture)
+      ? await getPresignedUrl(user.profilePicture)
+      : user.profilePicture;
+  } else if (user.provider === "email" && user.profilePicture) {
     profilePicture = await getPresignedUrl(user.profilePicture);
   }
 
