@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import User from "../../models/usersModel";
-import { findUserWithId, getUserWithId } from "../../services/user.services";
+import {
+  dataFormatForLocalStorage,
+  findUserWithId,
+  getUserWithId,
+} from "../../services/user.services";
 import { responseHandler } from "../../utils/responseHandler";
 import admin from "../../utils/firebaseConfig";
 import { isValidObjectId } from "mongoose";
@@ -98,12 +102,14 @@ export const handleUpdateUserProfile = async (req: Request, res: Response) => {
         gender: gender ? gender : checkUserInDb.gender,
       }
     );
+    const userDetails = await getUserWithId(userId)
+    const updatedUser = await dataFormatForLocalStorage(userDetails);
 
     return responseHandler(
       res,
       false,
       "Profile updated successfully",
-      null,
+      updatedUser,
       200
     );
   } catch (error) {

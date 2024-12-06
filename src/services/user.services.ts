@@ -55,6 +55,7 @@ export const dataFormatForLocalStorage = async (user : any) =>{
     _id: user._id,
     phoneNumber: user.phoneNumber,
     profilePicture,
+    gender:user.gender,
     optionFlowRefresh: user.optionFlowRefresh
       ? user.optionFlowRefresh
       : false,
