@@ -53,7 +53,7 @@ const handleLogin = async (req: Request, res: Response) => {
     };
 
     const encodeDefaultId = encodeDetails(dateToBeEncoded);
-    const userDetails = dataFormatForLocalStorage(user);
+    const userDetails = await dataFormatForLocalStorage(user);
     res.cookie("access_token", req.body.accessToken, { httpOnly: true });
     res.cookie("user_detail", encodeDefaultId, { httpOnly: true });
     return responseHandler(res, false, "Login successful", userDetails, 200);

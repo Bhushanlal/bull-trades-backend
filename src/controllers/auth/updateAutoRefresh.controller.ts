@@ -24,7 +24,7 @@ export const handleUpdateAutoRefresh = async (req: Request, res: Response) => {
     );
     const updatedUser = await findUserWithId(user.userId)
     
-    const userDetails = dataFormatForLocalStorage(updatedUser);
+    const userDetails = await dataFormatForLocalStorage(updatedUser);
     return responseHandler(
       res,
       false,

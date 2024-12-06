@@ -25,6 +25,7 @@ import { handleGetUserProfile } from "../controllers/user/userProfile.controller
 import { updateUserProfileValidate } from "../utils/validations/updateProfileValidate";
 import { handleUpdateAutoRefresh } from "../controllers/auth/updateAutoRefresh.controller";
 import { autorefValidate } from "../utils/validations/autoRefValidate";
+import uploadService from "../utils/storeProfileImg";
 
 router.post("/sign-up", registerValidate, register);
 router.post("/sign-in", loginValidate, handleLogin);
@@ -65,18 +66,21 @@ router.post("/upload-trades", multerUpload.single("file"), handleUploadTrades);
 router.get("/get-option-activity", handleGetOptionActivity);
 // router.get('/test', handleBenzingaOptionActivity)
 router.post("/test", validateFirebaseToken);
-// handle User profile
-router.get("/get-user-profile", validateFirebaseToken, handleGetUserProfile);
-router.put(
-  "/update-user-profile/:id",
-  validateFirebaseToken,
-  updateUserProfileValidate,
-  handleUpdateUserProfile
-);      
 router.put(
   "/update-auto-refresh",
   validateFirebaseToken,
   autorefValidate,
   handleUpdateAutoRefresh
 );
+router.post("/upload-trades", multerUpload.single("file"), handleUploadTrades);
+router.post("/test", validateFirebaseToken);
+// handle User profile
+router.get("/get-user-profile", validateFirebaseToken, handleGetUserProfile);
+router.put(
+  "/update-user-profile/:id",
+  validateFirebaseToken,
+  uploadService.single("profilePicture"),
+  handleUpdateUserProfile
+);
+
 export default router;
