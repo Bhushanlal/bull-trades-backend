@@ -26,7 +26,7 @@ export const register = async (req: Request, res: Response) => {
           userId : user._id,
           defaultAccountId: user.defaultAccount
         }
-        const userDetails = dataFormatForLocalStorage(user);
+        const userDetails = await dataFormatForLocalStorage(user);
         const encodeDefaultId = encodeDetails(dateToBeEncoded)
         res.cookie("access_token", req.body.accessToken, { httpOnly: true });
         res.cookie("user_detail", encodeDefaultId, { httpOnly: true });
@@ -63,7 +63,7 @@ export const register = async (req: Request, res: Response) => {
       res.cookie("user_detail", encodeDefaultId, { httpOnly: true });
     }
       
-    const userDetails = dataFormatForLocalStorage(newUser);
+    const userDetails = await dataFormatForLocalStorage(newUser);
     return responseHandler(
       res,
       false,

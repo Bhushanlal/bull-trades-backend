@@ -1,16 +1,18 @@
 import { Request, Response } from "express";
 import User from "../../models/usersModel";
-import { findUserWithId, getUserWithId } from "../../services/user.services";
+import {
+  dataFormatForLocalStorage,
+  findUserWithId,
+  getUserWithId,
+} from "../../services/user.services";
 import { responseHandler } from "../../utils/responseHandler";
 import admin from "../../utils/firebaseConfig";
 import { isValidObjectId } from "mongoose";
+import { deleteS3Imgs, uploadFileToS3 } from "../../services/commonServices";
 
-export const handleUpdateUserProfile = async (
-  req: Request,
-  res: Response
-) => {
+export const handleUpdateUserProfile = async (req: Request, res: Response) => {
   try {
-    const { fullname, profilePicture, phoneNumber, gender} = req.body;
+    const { fullname, phoneNumber, gender } = req.body;
     const userId = req.params.id;
     if (!isValidObjectId(userId)) {
       return responseHandler(res, true, "Invalid user ID format", null, 400);
@@ -53,19 +55,63 @@ export const handleUpdateUserProfile = async (
       );
     }
 
+    // Check for file
+    const imgFile = req.file;
+    let profileImageUrl;
+
+    if (imgFile) {
+      // File size validation: max 5 MB
+      const maxFileSize = 5 * 1024 * 1024;
+      if (imgFile.size > maxFileSize) {
+        return responseHandler(
+          res,
+          false,
+          "File size should not exceed 5 MB.",
+          null,
+          400
+        );
+      }
+
+      // File type validation: allow only JPEG, JPG, and PNG
+      const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
+      if (!allowedFileTypes.includes(imgFile.mimetype)) {
+        return responseHandler(
+          res,
+          false,
+          "Only JPEG, JPG, and PNG formats are allowed.",
+          null,
+          400
+        );
+      }
+      profileImageUrl = await uploadFileToS3(imgFile, userId);
+
+      // Optional: delete old image if exists
+      if (checkUserInDb.profilePicture) {
+        await deleteS3Imgs(checkUserInDb.profilePicture);
+      }
+    }
+
     await User.updateOne(
       { _id: userId, isDeleted: false },
       {
         fullname: fullname ? fullname : checkUserInDb.fullname,
         phoneNumber: phoneNumber ? phoneNumber : checkUserInDb.phoneNumber,
-        profilePicture: profilePicture ? profilePicture : null,
-        gender: gender ? gender : checkUserInDb.gender
+        profilePicture: profileImageUrl
+          ? profileImageUrl
+          : checkUserInDb.profilePicture,
+        gender: gender ? gender : checkUserInDb.gender,
       }
-      
     );
-    const updatedUser = await getUserWithId(userId)
+    const userDetails = await getUserWithId(userId)
+    const updatedUser = await dataFormatForLocalStorage(userDetails);
 
-    return responseHandler(res, false, "Profile updated successfully", updatedUser, 200);
+    return responseHandler(
+      res,
+      false,
+      "Profile updated successfully",
+      updatedUser,
+      200
+    );
   } catch (error) {
     console.error(error);
     return responseHandler(

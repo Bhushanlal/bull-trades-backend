@@ -1,6 +1,7 @@
 import { JWT_SECRET } from "../utils/envConstants";
 import User from "../models/usersModel";
 import * as  jwt from "jsonwebtoken"; 
+import { getPresignedUrl } from "./commonServices";
 
 export const findUserWithEmail = async (email: string) => {
   const user = await User.findOne({ email, isDeleted: false });
@@ -46,13 +47,15 @@ export const decodeDetails = (token: string) => {
   }
 };
 
-export const dataFormatForLocalStorage = (user : any) =>{
+export const dataFormatForLocalStorage = async (user : any) =>{
+  const profilePicture = await getPresignedUrl(user.profilePicture);
   const userDetails = {
     email: user.email,
     fullname: user.fullname,
     _id: user._id,
     phoneNumber: user.phoneNumber,
-    profilePicture: user.profilePicture,
+    profilePicture,
+    gender:user.gender,
     optionFlowRefresh: user.optionFlowRefresh
       ? user.optionFlowRefresh
       : false,
