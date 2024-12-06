@@ -29,7 +29,7 @@ connectToMongoDB();
 app.use("/api", routes);
 
 // Initialize cron jobs
-initializeBenzingaCron();
+// initializeBenzingaCron();
 
 const PORT = process.env.PORT || 8080
 app.listen(PORT, () => {

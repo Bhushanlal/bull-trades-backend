@@ -5,6 +5,7 @@ import {
   Position,
   Provider,
   RiskLevel,
+  Sentiments,
   TradeType,
   UserGender,
 } from "../../utils/enum";
@@ -320,4 +321,40 @@ export const optionalGender = Joi.string()
   export const requiredAutoRefValue = Joi.boolean().required().messages({
     "boolean.base": "Auto refresh column value must be a boolean",
     "any.required": "Auto refresh column value is required",
+  });
+
+  export const optionalSizeGrtBoolean = Joi.boolean()
+  .optional()
+  .allow(null)
+  .messages({
+    "boolean.base": "SizeGrt then type must be boolean",
+  });
+
+  export const optionalOtmCallBoolean = Joi.boolean()
+  .optional()
+  .allow(null)
+  .messages({
+    "boolean.base": "Otm calls type must be boolean",
+  });
+
+  export const optionalOtmPutBoolean = Joi.boolean()
+  .optional()
+  .allow(null)
+  .messages({
+    "boolean.base": "Otm puts type must be boolean",
+  });
+
+  export const optionalPriceLtBoolean = Joi.boolean()
+  .optional()
+  .allow(null)
+  .messages({
+    "boolean.base": "Price less than 2 type must be boolean",
+  });
+
+  export const optionalSentiment = Joi.string()
+  .optional()
+  .allow(null, '')
+  .valid(...Object.values(Sentiments))
+  .messages({
+    "any.only": `entiment must be one of the following: ${Object.values(Sentiments)}`,
   });
