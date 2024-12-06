@@ -47,7 +47,7 @@ export const formatDateTimeString = (date: any, time: any, region: string) => {
 };
 
 // New function to convert date to UTC at the start of the day
-export const formatDateStringToUTC = (date: any, region: any) => {
+export const formatDateStringToUTC = (date: any, region?: any) => {
   try {
     const dateMoment = moment(date, "YYYY/DD/MM").local();
     const datetimeMoment = dateMoment
@@ -161,5 +161,20 @@ export const deleteS3Imgs = async (imgs: string) => {
     };
 
     await s3.send(new DeleteObjectCommand(deleteParams));
+  }
+};
+
+//  from "YYYY/MM/DD"
+export const formatExpirationDateToUTC = (date: any) => {
+  try {
+    const dateMoment = moment(date, "YYYY/MM/DD").local();
+    const datetimeMoment = dateMoment
+      .set({ hour: 0, minute: 0, second: 0 }) // Set to start of the day
+      .format("YYYY-MM-DDTHH:mm:ss");
+    const entryUTCDate = convertToUTC(datetimeMoment, "UTC");
+
+    return entryUTCDate;
+  } catch (error) {
+    console.log(error, "error");
   }
 };

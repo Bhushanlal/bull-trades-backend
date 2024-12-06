@@ -5,6 +5,7 @@ import axios from "axios";
 import { BENZINGA_API_KEY, BENZINGA_API_URL } from "../../utils/envConstants";
 import * as cron from "node-cron";
 import * as moment from "moment-timezone";
+import { formatExpirationDateToUTC } from "../../services/commonServices";
 
 // Function to fetch and save Benzinga data
 const fetchBenzingaOptionActivity = async () => {
@@ -21,7 +22,18 @@ const fetchBenzingaOptionActivity = async () => {
       const bulkOps = optionActivityData.map((activity: any) => ({
         updateMany: {
           filter: { id: activity.id },
-          update: { $set: activity },
+          update: {
+            $set: {
+              ...activity,
+              strike_price: activity.strike_price ? +activity.strike_price : 0,
+              price: activity.price ? +activity.price : 0,
+              size: activity.size ? +activity.size : 0,
+              underlying_price: activity.underlying_price
+                ? +activity.underlying_price
+                : 0,
+                date_expiration : formatExpirationDateToUTC(activity.date_expiration)
+            },
+          },
           upsert: true,
         },
       }));
@@ -60,9 +72,7 @@ export const initializeBenzingaCron = () => {
       // Convert to numbers for comparison
       const hours = parseInt(
         now.toLocaleString("en-US", {
-          //change to "America/New_York" for EST
-          //Asia/Kolkata
-          timeZone: "Asia/Kolkata",
+          timeZone: "America/New_York",
           hour: "numeric",
           hour12: false,
         }),
@@ -70,7 +80,7 @@ export const initializeBenzingaCron = () => {
       );
       const minutes = parseInt(
         now.toLocaleString("en-US", {
-          timeZone: "Asia/Kolkata",
+          timeZone: "America/New_York",
           minute: "numeric",
           hour12: false,
         }),
@@ -84,7 +94,7 @@ export const initializeBenzingaCron = () => {
       await fetchBenzingaOptionActivity();
     },
     {
-      timezone: "Asia/Kolkata",
+      timezone: "America/New_York",
     }
   );
 };

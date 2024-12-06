@@ -26,6 +26,9 @@ import { updateUserProfileValidate } from "../utils/validations/updateProfileVal
 import { handleUpdateAutoRefresh } from "../controllers/auth/updateAutoRefresh.controller";
 import { autorefValidate } from "../utils/validations/autoRefValidate";
 import uploadService from "../utils/storeProfileImg";
+import { handleSaveCommonFilters } from "../controllers/commonFilters/saveCommonFilter.controller";
+import { advanceFilterValidate } from "../utils/validations/saveAdvanceFilterValidate";
+import { handleGetCommonFilters } from "../controllers/commonFilters/getFilters.controller";
 
 router.post("/sign-up", registerValidate, register);
 router.post("/sign-in", loginValidate, handleLogin);
@@ -83,4 +86,23 @@ router.put(
   handleUpdateUserProfile
 );
 
+router.put(
+  "/update-auto-refresh",
+  validateFirebaseToken,
+  autorefValidate,
+  handleUpdateAutoRefresh
+);
+
+router.post(
+  "/save-advance-filters",
+  validateFirebaseToken,
+  advanceFilterValidate,
+  handleSaveCommonFilters
+);
+
+router.get(
+  "/get-advance-filters",
+  validateFirebaseToken,
+  handleGetCommonFilters
+);
 export default router;
