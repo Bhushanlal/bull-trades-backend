@@ -111,7 +111,7 @@ export const uploadFileToS3 = async (
   file: Express.Multer.File,
   userId: string
 ): Promise<string | null> => {
-  const filePath = path.join(`./${file.path}`); // Get the file path
+  const filePath = path.resolve(file.path); // Get the file path
   const fileContent = fs.readFileSync(filePath); // Read the file content
 
   const folderPath = `profiles/${userId}`;
