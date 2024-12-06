@@ -52,7 +52,7 @@ const optionActivitySchema = new Schema<IOptionActivity>({
     required: true
   },
   underlying_price: {
-    type: String, 
+    type: Number, 
     required: true
   },
   cost_basis: {
@@ -64,19 +64,19 @@ const optionActivitySchema = new Schema<IOptionActivity>({
     required: true
   },
   strike_price: {
-    type: String, 
+    type: Number, 
     required: true
   },
   price: {
-    type: String, 
+    type: Number, 
     required: true
   },
   size: {
-    type: String, 
+    type: Number, 
     required: true
   },
   date_expiration: {
-    type: String,
+    type: Date,
     required: true
   },
   option_activity_type: {

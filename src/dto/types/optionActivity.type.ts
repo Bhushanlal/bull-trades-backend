@@ -11,13 +11,13 @@ export interface IOptionActivity {
     aggressor_ind: string;
     option_symbol: string;
     underlying_type: string;
-    underlying_price: string;
+    underlying_price: number;
     cost_basis: string;
     put_call: string;
-    strike_price: string;
-    price: string;
-    size: string;
-    date_expiration: string;
+    strike_price: number;
+    price: number;
+    size: number;
+    date_expiration: Date,
     option_activity_type: string;
     trade_count: string;
     open_interest: string;
