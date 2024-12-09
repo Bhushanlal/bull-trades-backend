@@ -101,8 +101,6 @@ export const requireExpireDate = Joi.string()
     "string.pattern.base": "Expiration Date must be in the format yyyy/dd/mm",
   });
 
-
-
 export const requireStrike = Joi.number().min(0).required().messages({
   "number.base": "Strike Price must be a number",
   "any.required": "Strike Price is required",
@@ -126,17 +124,13 @@ export const requireCallOrPut = Joi.string()
     "any.only": "Call/put must be one of the following: call or put",
   });
 
-
-
 export const requireVolume = Joi.number().min(0).required().messages({
   "number.base": "Size must be a number",
   "any.required": "Size is required",
   "number.min": "Size must be greater than 0",
   "number.integer": "Size must be Integer",
-  "number.safe" : "Size is not a safe number"
+  "number.safe": "Size is not a safe number",
 });
-
-
 
 export const requireTradeType = Joi.string()
   .required()
@@ -172,7 +166,6 @@ export const requireRegion = Joi.string().min(0).max(80).required().messages({
     "Region cannot contain leading or trailing spaces. please enter valid Region",
 });
 
-
 export const requireRiskLevel = Joi.string()
   .required()
   .valid(...Object.values(RiskLevel))
@@ -193,14 +186,14 @@ export const requirePosition = Joi.string()
 
 export const optionalSizeGrt500 = Joi.string()
   .optional()
-  .allow(null, '')
+  .allow(null, "")
   .messages({
     "any.only": "SizeGrt500 type must be string",
   });
 
 export const optionalCallOrPut = Joi.string()
   .optional()
-  .allow(null, '')
+  .allow(null, "")
   .valid(...Object.values(CallOrPut))
   .messages({
     "any.only": "Call/put must be one of the following: call or put",
@@ -208,7 +201,7 @@ export const optionalCallOrPut = Joi.string()
 
 export const optionalRiskLevel = Joi.string()
   .optional()
-  .allow(null, '')
+  .allow(null, "")
   .valid(...Object.values(RiskLevel))
   .messages({
     "any.only": "Risk type must be one of the following: high, low or medium",
@@ -216,21 +209,21 @@ export const optionalRiskLevel = Joi.string()
 
 export const optionalPriceStart = Joi.number()
   .optional()
-  .allow(null, '')
+  .allow(null, "")
   .messages({
     "any.only": "PriceStart type must be number",
   });
 
 export const optionalPriceEnd = Joi.number()
   .optional()
-  .allow(null, '')
+  .allow(null, "")
   .messages({
     "any.only": "PriceEnd type must be number",
   });
 
 export const optionalExpirationStart = Joi.string()
   .optional()
-  .allow(null, '')
+  .allow(null, "")
   .trim()
   .pattern(dateFormatRegex)
   .messages({
@@ -240,7 +233,7 @@ export const optionalExpirationStart = Joi.string()
 
 export const optionalExpirationEnd = Joi.string()
   .optional()
-  .allow(null, '')
+  .allow(null, "")
   .trim()
   .pattern(dateFormatRegex)
   .messages({
@@ -250,7 +243,7 @@ export const optionalExpirationEnd = Joi.string()
 
 export const optionalRegion = Joi.string()
   .optional()
-  .allow(null, '')
+  .allow(null, "")
   .min(0)
   .max(80)
   .messages({
@@ -263,7 +256,7 @@ export const optionalRegion = Joi.string()
 
 export const optionalTicker = Joi.string()
   .optional()
-  .allow(null, '')
+  .allow(null, "")
   .trim()
   .min(1)
   .max(50)
@@ -290,9 +283,9 @@ export const querySchemaPage = Joi.number()
   });
 
 export const optionalFullname = Joi.string().min(3).optional().messages({
-    "string.min": "Fullname must be at least 3 characters long",
-    "string.empty": "Fullname cannot be empty",
-  });
+  "string.min": "Fullname must be at least 3 characters long",
+  "string.empty": "Fullname cannot be empty",
+});
 
 export const optionalPhoneNumber = Joi.string()
   .optional()
@@ -309,52 +302,90 @@ export const optionalGender = Joi.string()
     "any.only": "Gender must be one of the following: MALE or FEMALE.",
   });
 
-  export const requiredAutRefColName = Joi.string()
+export const requiredAutRefColName = Joi.string()
   .required()
   .valid(...Object.values(AutoRefColumnName))
   .messages({
     "string.empty": "Auto refresh col name cannot be empty",
     "any.required": "Auto refresh col name is required",
-    "any.only": `Auto refresh col name type must be one of the following: ${Object.values(AutoRefColumnName)}`,
+    "any.only": `Auto refresh col name type must be one of the following: ${Object.values(
+      AutoRefColumnName
+    )}`,
   });
 
-  export const requiredAutoRefValue = Joi.boolean().required().messages({
-    "boolean.base": "Auto refresh column value must be a boolean",
-    "any.required": "Auto refresh column value is required",
-  });
+export const requiredAutoRefValue = Joi.boolean().required().messages({
+  "boolean.base": "Auto refresh column value must be a boolean",
+  "any.required": "Auto refresh column value is required",
+});
 
-  export const optionalSizeGrtBoolean = Joi.boolean()
+export const optionalSizeGrtBoolean = Joi.boolean()
   .optional()
   .allow(null)
   .messages({
     "boolean.base": "SizeGrt then type must be boolean",
   });
 
-  export const optionalOtmCallBoolean = Joi.boolean()
+export const optionalOtmCallBoolean = Joi.boolean()
   .optional()
   .allow(null)
   .messages({
     "boolean.base": "Otm calls type must be boolean",
   });
 
-  export const optionalOtmPutBoolean = Joi.boolean()
+export const optionalOtmPutBoolean = Joi.boolean()
   .optional()
   .allow(null)
   .messages({
     "boolean.base": "Otm puts type must be boolean",
   });
 
-  export const optionalPriceLtBoolean = Joi.boolean()
+export const optionalPriceLtBoolean = Joi.boolean()
   .optional()
   .allow(null)
   .messages({
     "boolean.base": "Price less than 2 type must be boolean",
   });
 
-  export const optionalSentiment = Joi.string()
+export const optionalSentiment = Joi.string()
   .optional()
-  .allow(null, '')
+  .allow(null, "")
   .valid(...Object.values(Sentiments))
   .messages({
-    "any.only": `entiment must be one of the following: ${Object.values(Sentiments)}`,
+    "any.only": `entiment must be one of the following: ${Object.values(
+      Sentiments
+    )}`,
+  });
+
+export const optionalOtmCallString = Joi.string()
+  .optional()
+  .allow(null, "")
+  .messages({
+    "string.base": "Otm calls type must be string",
+  });
+
+export const optionalOtmPutString = Joi.string()
+  .optional()
+  .allow(null, "")
+  .messages({
+    "string.base": "Otm puts type must be string",
+  });
+
+export const optionalPriceLtString = Joi.string()
+  .optional()
+  .allow(null, "")
+  .messages({
+    "string.base": "Price less than 2 type must be string",
+  });
+export const optionalPriceStartString = Joi.string()
+  .optional()
+  .allow(null, "")
+  .messages({
+    "any.only": "PriceStart type must be string",
+  });
+
+export const optionalPriceEndString = Joi.string()
+  .optional()
+  .allow(null, "")
+  .messages({
+    "any.only": "PriceEnd type must be string",
   });

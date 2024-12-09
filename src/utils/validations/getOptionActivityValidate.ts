@@ -2,40 +2,42 @@ import { Request, Response } from "express";
 import { responseHandler } from "../responseHandler";
 import * as Joi from "joi";
 import {
-  optionalSizeGrtBoolean,
   optionalCallOrPut,
-  optionalPriceStart,
-  optionalPriceEnd,
-  optionalExpirationStart,
   optionalExpirationEnd,
-  optionalRegion,
-  optionalOtmCallBoolean,
-  optionalOtmPutBoolean,
-  optionalPriceLtBoolean,
+  optionalExpirationStart,
+  optionalOtmCallString,
+  optionalOtmPutString,
+  optionalPriceEndString,
+  optionalPriceLtString,
+  optionalPriceStartString,
   optionalSentiment,
+  optionalSizeGrt500,
+  optionalTicker,
+  querySchemaPage,
 } from "./commonSchema";
 
-const advanceFilterSchema = Joi.object({
-  otmCalls: optionalOtmCallBoolean,
-  otmPuts: optionalOtmPutBoolean,
-  priceLessThanTwo: optionalPriceLtBoolean,
-  sizeGreater500: optionalSizeGrtBoolean,
+const getOptionActivitySchema = Joi.object({
+  page: querySchemaPage,
+  otmCalls: optionalOtmCallString,
+  otmPuts: optionalOtmPutString,
+  priceLessThanTwo: optionalPriceLtString,
+  sizeGreater500: optionalSizeGrt500,
   sentiment: optionalSentiment,
   callOrPut: optionalCallOrPut,
-  priceStart: optionalPriceStart,
-  priceEnd: optionalPriceEnd,
+  priceStart: optionalPriceStartString,
+  priceEnd: optionalPriceEndString,
   expirationStart: optionalExpirationStart,
   expirationEnd: optionalExpirationEnd,
-  region: optionalRegion,
+  ticker: optionalTicker,
 });
 
 // Validation middleware
-export const advanceFilterValidate = (
+export const getOptionActivityValidate = (
   req: Request,
   res: Response,
   next: any
 ) => {
-  const { error } = advanceFilterSchema.validate(req.body, {
+  const { error } = getOptionActivitySchema.validate(req.query, {
     abortEarly: false,
   });
 
@@ -50,7 +52,7 @@ export const advanceFilterValidate = (
     return responseHandler(
       res,
       true,
-      "Price start can not be greater than the price end",
+      "Price start cannot be greater than the price end",
       null,
       400
     );

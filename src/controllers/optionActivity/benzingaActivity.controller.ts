@@ -64,6 +64,8 @@ export const handleBenzingaOptionActivity = async (
 
 // Initialize cron jobs
 export const initializeBenzingaCron = () => {
+  // For Asia/Kolkata location
+  // timezone: "Asia/Kolkata",
   cron.schedule(
     "*/10 * 9-16 * * *",
     async () => {

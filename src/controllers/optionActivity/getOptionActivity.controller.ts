@@ -7,7 +7,7 @@ export const handleGetOptionActivity = async (req: Request, res: Response) => {
   try {
     // Get pagination parameters from query
     let page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 1000 ;
+    const limit = parseInt(req.query.limit as string) || 50 ;
 
     // Extract filter parameters
     const {

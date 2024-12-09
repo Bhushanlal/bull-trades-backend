@@ -15,7 +15,7 @@ export const handleGetCommonFilters = async (req: Request, res: Response) => {
     }
     return responseHandler(
       res,
-      true,
+      false,
       "Filters fetched successfully",
       filter,
       200

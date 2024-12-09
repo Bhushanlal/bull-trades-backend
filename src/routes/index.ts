@@ -29,6 +29,7 @@ import uploadService from "../utils/storeProfileImg";
 import { handleSaveCommonFilters } from "../controllers/commonFilters/saveCommonFilter.controller";
 import { advanceFilterValidate } from "../utils/validations/saveAdvanceFilterValidate";
 import { handleGetCommonFilters } from "../controllers/commonFilters/getFilters.controller";
+import { getOptionActivityValidate } from "../utils/validations/getOptionActivityValidate";
 
 router.post("/sign-up", registerValidate, register);
 router.post("/sign-in", loginValidate, handleLogin);
@@ -66,7 +67,12 @@ router.get(
 router.delete("/delete-trade/:id", validateFirebaseToken, handleDeleteTrades);
 // handle file upload for trades
 router.post("/upload-trades", multerUpload.single("file"), handleUploadTrades);
-router.get("/get-option-activity", handleGetOptionActivity);
+router.get(
+  "/get-option-activity",
+  validateFirebaseToken,
+  getOptionActivityValidate,
+  handleGetOptionActivity
+);
 // router.get('/test', handleBenzingaOptionActivity)
 router.post("/test", validateFirebaseToken);
 router.put(
