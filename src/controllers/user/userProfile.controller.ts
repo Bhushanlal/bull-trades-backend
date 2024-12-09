@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-import { getUserWithId, decodeDetails } from "../../services/user.services";
+import { decodeDetails, dataFormatForLocalStorage, findUserWithId } from "../../services/user.services";
 import { responseHandler } from "../../utils/responseHandler";
-import { getPresignedUrl } from "../../services/commonServices";
 
 export const handleGetUserProfile = async (req: Request, res: Response) => {
   try {
@@ -10,21 +9,12 @@ export const handleGetUserProfile = async (req: Request, res: Response) => {
     const user: any = decodeDetails(user_detail);
 
     // Fetch the user from the database
-    let checkUserInDb = await getUserWithId(user.userId);
+    let checkUserInDb = await findUserWithId(user.userId);
     if (!checkUserInDb) {
       return responseHandler(res, true, "User not found", null, 404);
     }
 
-    // Generate a pre-signed URL for the user's profile picture
-    const profilePictureUrl = checkUserInDb.profilePicture
-      ? await getPresignedUrl(checkUserInDb.profilePicture)
-      : null;
-
-    // Add the pre-signed URL to the user object
-    const userWithProfilePicture = {
-      ...checkUserInDb.toObject(),
-      profilePicture: profilePictureUrl,
-    };
+    const userWithProfilePicture = await dataFormatForLocalStorage(checkUserInDb)
 
     return responseHandler(
       res,

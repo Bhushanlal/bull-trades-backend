@@ -3,7 +3,6 @@ import User from "../../models/usersModel";
 import {
   dataFormatForLocalStorage,
   findUserWithId,
-  getUserWithId,
 } from "../../services/user.services";
 import { responseHandler } from "../../utils/responseHandler";
 import admin from "../../utils/firebaseConfig";
@@ -12,7 +11,7 @@ import { deleteS3Imgs, uploadFileToS3 } from "../../services/commonServices";
 
 export const handleUpdateUserProfile = async (req: Request, res: Response) => {
   try {
-    const { fullname, phoneNumber, gender } = req.body;
+    const { fullname, phoneNumber, gender, imageAction } = req.body;
     const userId = req.params.id;
     if (!isValidObjectId(userId)) {
       return responseHandler(res, true, "Invalid user ID format", null, 400);
@@ -96,13 +95,16 @@ export const handleUpdateUserProfile = async (req: Request, res: Response) => {
       {
         fullname: fullname ? fullname : checkUserInDb.fullname,
         phoneNumber: phoneNumber ? phoneNumber : checkUserInDb.phoneNumber,
-        profilePicture: profileImageUrl
-          ? profileImageUrl
-          : checkUserInDb.profilePicture,
+        profilePicture:
+          imageAction == "removed"
+            ? null
+            : profileImageUrl
+            ? profileImageUrl
+            : checkUserInDb.profilePicture,
         gender: gender ? gender : checkUserInDb.gender,
       }
     );
-    const userDetails = await getUserWithId(userId)
+    const userDetails = await findUserWithId(userId);
     const updatedUser = await dataFormatForLocalStorage(userDetails);
 
     return responseHandler(
