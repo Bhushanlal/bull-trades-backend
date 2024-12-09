@@ -11,8 +11,8 @@ export interface IOptionActivity {
     aggressor_ind: string;
     option_symbol: string;
     underlying_type: string;
-    underlying_price: number;
-    cost_basis: string;
+    spot: number;
+    premium: number;
     put_call: string;
     strike_price: number;
     price: number;

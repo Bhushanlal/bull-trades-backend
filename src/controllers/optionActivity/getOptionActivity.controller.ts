@@ -35,12 +35,12 @@ export const handleGetOptionActivity = async (req: Request, res: Response) => {
 
     // OTM Calls filter
     if (otmCalls === "true") {
-      query.$expr = { $gt: ["$strike_price", "$underlying_price"] };
+      query.$expr = { $gt: ["$strike_price", "$spot"] };
     }
 
     // OTM Puts filter
     if (otmPuts === "true") {
-      query.$expr = { $lt: ["$strike_price", "$underlying_price"] };
+      query.$expr = { $lt: ["$strike_price", "$spot"] };
     }
 
     // Price less than $2 filter

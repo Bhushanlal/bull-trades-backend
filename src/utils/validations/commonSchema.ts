@@ -193,7 +193,7 @@ export const optionalSizeGrt500 = Joi.string()
 
 export const optionalCallOrPut = Joi.string()
   .optional()
-  .allow(null, "")
+  .allow(null, "", "null" )
   .valid(...Object.values(CallOrPut))
   .messages({
     "any.only": "Call/put must be one of the following: call or put",
@@ -348,10 +348,10 @@ export const optionalPriceLtBoolean = Joi.boolean()
 
 export const optionalSentiment = Joi.string()
   .optional()
-  .allow(null, "")
+  .allow(null, "", "null")
   .valid(...Object.values(Sentiments))
   .messages({
-    "any.only": `entiment must be one of the following: ${Object.values(
+    "any.only": `Sentiment must be one of the following: ${Object.values(
       Sentiments
     )}`,
   });

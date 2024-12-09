@@ -51,12 +51,12 @@ const optionActivitySchema = new Schema<IOptionActivity>({
     type: String,
     required: true
   },
-  underlying_price: {
+  spot: {
     type: Number, 
     required: true
   },
-  cost_basis: {
-    type: String, 
+  premium: {
+    type: Number, 
     required: true
   },
   put_call: {

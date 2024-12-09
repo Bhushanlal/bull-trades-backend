@@ -26,12 +26,15 @@ const fetchBenzingaOptionActivity = async () => {
             $set: {
               ...activity,
               strike_price: activity.strike_price ? +activity.strike_price : 0,
-              price: activity.price ? +activity.price : 0,
-              size: activity.size ? +activity.size : 0,
-              underlying_price: activity.underlying_price
-                ? +activity.underlying_price
+              price: activity?.price ? +activity?.price : 0,
+              size: activity?.size ? +activity?.size : 0,
+              spot: activity?.underlying_price
+                ? +activity?.underlying_price
                 : 0,
-                date_expiration : formatExpirationDateToUTC(activity.date_expiration)
+              premium: activity?.cost_basis ? +activity?.cost_basis : 0,
+              date_expiration: formatExpirationDateToUTC(
+                activity.date_expiration
+              ),
             },
           },
           upsert: true,
@@ -72,9 +75,10 @@ export const initializeBenzingaCron = () => {
       const now = new Date();
 
       // Convert to numbers for comparison
+      // use Asia/kolkata to run the cron as IST time
       const hours = parseInt(
         now.toLocaleString("en-US", {
-          timeZone: "America/New_York",
+          timeZone: "Asia/kolkata",
           hour: "numeric",
           hour12: false,
         }),
@@ -82,7 +86,7 @@ export const initializeBenzingaCron = () => {
       );
       const minutes = parseInt(
         now.toLocaleString("en-US", {
-          timeZone: "America/New_York",
+          timeZone: "Asia/kolkata",
           minute: "numeric",
           hour12: false,
         }),
@@ -96,7 +100,7 @@ export const initializeBenzingaCron = () => {
       await fetchBenzingaOptionActivity();
     },
     {
-      timezone: "America/New_York",
+      timezone: "Asia/kolkata",
     }
   );
 };
